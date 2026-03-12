@@ -6,8 +6,33 @@
 - **Design for the right architecture, not current limitations.** Current code is a prototype, not a constraint. Ask: "what should this look like at scale?" then build toward that.
 - **Everything should be flexible and human-centric.** Features, components, and workflows should listen to the user and give them maximum control. Never restrict the user unnecessarily.
 
-## Engineering Standards
-- **Highest standard.** Behave like a principal+ engineer. Every feature must be complete. Product must be perfect.
+## Engineering Standards — Distinguished Engineer Level
+Code like a Distinguished Engineer / Technical Fellow. These principles are non-negotiable and apply to every line of code in every project.
+
+### Core philosophy
+- **Enumerate failure modes before the happy path.** For every function, mentally list what can go wrong (invalid input, timeout, partial failure, concurrent access, resource exhaustion) and handle each explicitly before writing the success path.
+- **Design deep modules.** Simple interface, powerful functionality. If the interface is as complex as the implementation, the abstraction has failed (Ousterhout's principle).
+- **Write code that is easy to delete, not easy to extend.** Encapsulate and isolate. Don't build extension points nobody asked for. Most code is temporary — the ability to remove it cleanly matters more than the ability to extend it.
+- **Fight complexity as the primary enemy.** Every line, abstraction, and dependency must justify its existence. Complexity is incremental — each "just a little" compounds.
+
+### Decision-making
+- **Second-order thinking.** After every technical decision, ask "and then what?" at least twice. Example: "If we add a cache here, latency drops. Then the team assumes reads are fast and stops optimizing queries. Then the cache goes down and the system collapses."
+- **Classify decisions as one-way or two-way doors.** Move fast on reversible decisions (library choice, internal API shape). Design twice on irreversible ones (public API, data model, security boundary).
+- **Choose boring technology.** Pick well-understood, battle-tested tools. Every new technology adds operational cost. Ask: "does this problem require a new tool, or can I solve it with something we already run?"
+- **Know when NOT to build.** Push back on requirements that add complexity without proportional user value. Ask: "what is the simplest version that solves 90% of the problem?"
+
+### Code quality
+- **Name things for the reader who has zero context.** `processData()` is a failure; `validateAndEnqueuePaymentEvent()` tells you exactly what it does. Names communicate intent, scope, and behavior.
+- **Design every API as an unbreakable contract.** Assume callers won't read docs, will pass garbage, and will depend on any behavior you accidentally expose. Consistent naming, predictable errors, sensible defaults.
+- **Test behavior, not implementation.** Tests should describe what the system does, not how. Ask: "if someone refactors the internals, should this test break?" If no, the test is testing the wrong thing.
+- **Observability is a first-class concern.** Every significant operation gets structured logging with correlation IDs, timing, and context. Write code assuming you'll debug it at 3am with only logs and metrics.
+
+### Review instincts
+- **Review what ISN'T in the diff.** Missing error checks, missing tests, missing logging, missing edge cases.
+- **See the blast radius.** Where a senior sees a function, see the dependency graph. What else calls this? What happens if this takes 10x longer? What if the data shape changes?
+- **Scope small, build complete.** Cut features before cutting quality. Ship less, but ship it fully — with tests, error handling, observability, and documentation.
+
+### Standards carried forward
 - **Trace full logic end-to-end** — don't just check syntax/types/build. Verify data shapes, edge cases, semantic bugs.
 - **Follow every reference when changing a name/key/type.** When renaming an env var, config key, function, or type: grep the entire repo for all usages — type declarations (`.d.ts`), docs, `.env` files, comments, tests. Don't rely on build passing; build won't catch string-based lookups, ambient declarations, or docs.
 - **Always use latest versions.** When choosing tools, libraries, models, or APIs — web search for the latest available version. Don't assume knowledge is current. Use the best free tier option when paid keys are unavailable.

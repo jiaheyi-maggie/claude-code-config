@@ -2,19 +2,49 @@
 
 Personal Claude Code configuration — commands, hooks, settings, and global instructions. Designed to be cloned and installed on any machine for a consistent Claude Code experience.
 
+## The Pipeline
+
+These commands map to a complete product development workflow:
+
+```
+/ideate              Think divergently, stress-test the idea
+    ↓
+/create-prd          Lock requirements into a PRD
+    ↓
+/architect           Review system design before writing code
+    ↓
+/prime               Load project context at session start
+    ↓
+/tdd                 Build with strict Red-Green-Refactor
+    ↓
+/review-feature      Three-pass review (bugs, logic, product alignment)
+    ↓
+/security-audit      OWASP Top 10 audit
+    ↓
+/pre-ship            Final quality gate — 7 gates, all must pass
+    ↓
+/handover            Save session state for next session
+```
+
 ## What's Included
 
 ### Commands (`commands/`)
-Custom slash commands available in every Claude Code session.
 
-| Command | Purpose |
-|---|---|
-| `/generate-prompt` | Expands a rough prompt into a structured, engineering-focused prompt with requirements, edge cases, and acceptance criteria |
-| `/handover` | Saves session state to a file that auto-loads in the next session, plus persists durable lessons to memory |
-| `/launch-multiagent-team` | Decision framework and templates for when/how to use multi-agent teams |
+| Command | Phase | Purpose |
+|---|---|---|
+| `/ideate` | Ideation | Creative exploration — challenges assumptions, proposes pivots, shapes the MVP |
+| `/create-prd` | Planning | Generates a full PRD with features, acceptance criteria, risks, and launch plan |
+| `/architect` | Design | Four-pillar architecture review (components, data, failure modes, security) |
+| `/prime` | Context | Loads project structure, key files, and git state before starting work |
+| `/tdd` | Building | Strict Red-Green-Refactor cycle with test quality checklist |
+| `/generate-prompt` | Building | Expands a rough prompt into structured engineering requirements |
+| `/review-feature` | Review | Three-pass post-implementation review (bugs, logic, product alignment) |
+| `/security-audit` | Review | Comprehensive OWASP Top 10 security audit with auto-fix |
+| `/pre-ship` | Shipping | Seven quality gates — build, semantics, edge cases, security, performance, DX, product alignment |
+| `/handover` | Session mgmt | Saves session state to auto-loading file + persists lessons to memory |
+| `/launch-multiagent-team` | Workflow | Decision framework for when/how to use multi-agent teams |
 
 ### Hooks (`hooks/`)
-Shell scripts triggered by Claude Code events.
 
 | Hook | Event | Purpose |
 |---|---|---|
@@ -27,14 +57,16 @@ Shell scripts triggered by Claude Code events.
 | `audit-config.sh` | ConfigChange | Logs config changes to `~/claude-config-audit.log` |
 
 ### Global Instructions (`CLAUDE.md`)
-Loaded automatically in every session. Covers:
-- Product & design thinking standards
-- Engineering standards and milestone verification
+
+Loaded automatically in every session. Encodes Distinguished Engineer / Technical Fellow level coding principles:
+- Product & design thinking (PMF lens, long-term architecture)
+- DE-level engineering standards (failure-first thinking, deep modules, second-order reasoning, boring technology)
 - Coding patterns and pitfalls (TS, React, Python, C)
 - Security checklist
-- Communication preferences
+- Communication and teaching preferences
 
 ### Settings Reference (`settings.reference.json`)
+
 Reference configuration for hooks wiring, env vars, and status line. Not installed automatically on machines that already have `settings.json` — merge manually.
 
 ## Installation
