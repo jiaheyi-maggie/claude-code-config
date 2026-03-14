@@ -10,6 +10,8 @@ Before reviewing any code, re-establish WHO you are and WHAT you're building. Ch
 
 Restate in 2-3 sentences: your role, the product vision, and the specific feature you just implemented. If you cannot find the original context, ask the user before proceeding.
 
+For this review, adopt **two perspectives simultaneously**: (1) a senior CPM evaluating product-market fit, user experience, and whether the feature delivers on the vision, and (2) a principal software engineer evaluating architecture, performance, maintainability, and engineering rigor.
+
 ## Step 2: Identify what changed
 
 Run `git diff HEAD` (or `git diff` if nothing is committed yet) to see ALL changes since the last clean state. Also run `git diff --name-only` to get the list of modified files.
@@ -37,7 +39,18 @@ For every function/handler/component you touched:
 - **Edge cases**: What happens with empty input? Zero items? One item? Maximum items? Duplicate items?
 - **Boundary conditions**: What happens when the API returns an error? When the network is down? When the user double-clicks?
 
-### Pass 3: Product alignment
+### Pass 3: Engineering quality (principal engineer lens)
+Review the implementation as a principal/staff engineer would in a design review:
+- **Architecture**: Does the code belong where it is? Is responsibility correctly separated, or is business logic leaking into UI components / API routes / utilities?
+- **Abstractions**: Are they at the right level? Too many layers for a simple feature? Or raw duplication that should be extracted? Apply the "rule of three" — don't abstract until the third use, but do abstract at the third.
+- **Performance**: Are there N+1 queries, unnecessary re-renders, O(n²) loops on data that could grow, missing indexes, or unbounded fetches? Would this hold up at 100x the current data volume?
+- **Data model**: Are the types/schemas correct and complete? Are fields named consistently? Will this schema support the next 2-3 features without migration?
+- **API design**: Are endpoints/function signatures intuitive, consistent with existing patterns, and hard to misuse? Do they return the right shape and status codes?
+- **Error boundaries**: Are errors surfaced to the right level? Does the caller get enough context to act on the error, or just a generic "something went wrong"?
+- **Testability**: Could someone write a test for this without mocking half the system? If not, the design likely has coupling problems.
+- **Observability**: Can you debug this in production? Are there logs at decision points with enough context (IDs, counts, durations)?
+
+### Pass 4: Product alignment
 Re-read the original requirements/vision from Step 1, then for each change ask:
 - **Does this actually deliver what was asked for?** Not "is it close" — does it precisely match the intent?
 - **Did I gold-plate?** Did I add complexity, features, or abstractions that weren't requested?
