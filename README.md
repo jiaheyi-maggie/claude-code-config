@@ -17,6 +17,8 @@ These commands map to a complete product development workflow:
     ↓
 /tdd                 Build with strict Red-Green-Refactor
     ↓
+/bugfix <desc>       Fix bugs with mandatory repro + verification
+    ↓
 /review-feature      Three-pass review (bugs, logic, product alignment)
     ↓
 /security-audit      OWASP Top 10 audit
@@ -24,6 +26,11 @@ These commands map to a complete product development workflow:
 /pre-ship            Final quality gate — 7 gates, all must pass
     ↓
 /handover            Save session state for next session
+
+Session utilities (use anytime):
+/tbc                 Bookmark before stepping away
+/catch-up            Summarize what you missed since /tbc
+/summarize <topic>   Search past sessions for a topic
 ```
 
 ## What's Included
@@ -41,8 +48,12 @@ These commands map to a complete product development workflow:
 | `/review-feature` | Review | Three-pass post-implementation review (bugs, logic, product alignment) |
 | `/security-audit` | Review | Comprehensive OWASP Top 10 security audit with auto-fix |
 | `/pre-ship` | Shipping | Seven quality gates — build, semantics, edge cases, security, performance, DX, product alignment |
+| `/bugfix <description>` | Debugging | Strict 5-phase bug fix protocol with mandatory reproduction, verification, and attempt tracking in `.claude/bugs.md` |
 | `/handover` | Session mgmt | Saves session state to auto-loading file + persists lessons to memory |
 | `/launch-multiagent-team` | Workflow | Decision framework for when/how to use multi-agent teams |
+| `/summarize <topic>` | Session mgmt | Searches past conversation logs for a topic and produces a detailed summary with decisions, outcomes, and open items |
+| `/tbc` | Session mgmt | Drops a bookmark in the current conversation — pair with `/catch-up` when you return |
+| `/catch-up` | Session mgmt | Summarizes everything that happened since the last `/tbc` bookmark — messages, files changed, decisions, current state |
 
 ### Hooks (`hooks/`)
 
