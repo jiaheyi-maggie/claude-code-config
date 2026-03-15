@@ -89,3 +89,37 @@ Path to 100x: [config change / minor refactor / rewrite]
 ```
 
 If critical issues are found, do NOT proceed to implementation. Fix the architecture first — it's 100x cheaper to fix now than after code is written.
+
+## Step 5: Implementation phases with review gates
+
+When the plan has multiple phases, define them explicitly with mandatory review gates between each phase. This prevents drift from compounding across phases.
+
+### Phase structure
+For each phase, specify:
+1. **Scope** — exactly what gets built (files, components, endpoints)
+2. **Acceptance criteria** — how to verify this phase is done correctly
+3. **Dependencies** — what must exist before this phase starts
+4. **Review gate** — what gets reviewed before moving to the next phase
+
+### Review gates (MANDATORY)
+After completing each phase:
+1. **Spawn the `code-reviewer` agent** (or invoke `/review-feature`) to perform a full 4-pass review of that phase's changes
+2. **All critical issues must be resolved** before starting the next phase
+3. **Verify the phase's acceptance criteria are met** — run the code, check the flows, confirm the behavior
+
+```
+Phase 1: [name]
+  Scope: [what gets built]
+  Acceptance: [how to verify]
+  Review gate: /review-feature [phase 1 scope]
+      ↓ (pass review before proceeding)
+Phase 2: [name]
+  Scope: [what gets built]
+  Depends on: Phase 1
+  Acceptance: [how to verify]
+  Review gate: /review-feature [phase 2 scope]
+      ↓ (pass review before proceeding)
+Phase N: ...
+```
+
+**Do NOT batch phases together to save time.** Each phase is a checkpoint. Catching a broken assumption in Phase 1 saves rewriting Phases 2-N.
