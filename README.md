@@ -59,6 +59,7 @@ Session utilities (use anytime):
 
 | Agent | Model | Purpose |
 |---|---|---|
+| `senior-engineer` | Opus (latest) | Principal software engineer with deep systems knowledge. Spawn for architecture decisions, complex implementations, technology selection, performance optimization, and system design. Backed by a comprehensive knowledge base (`agents/knowledge/engineering-kb.md`). |
 | `code-reviewer` | Opus (latest) | Principal engineer 4-pass code review — automatically spawned after big feature implementations. Reviews bugs, logic, engineering quality, and product alignment. |
 
 ### Hooks (`hooks/`)

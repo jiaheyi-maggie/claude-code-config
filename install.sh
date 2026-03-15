@@ -69,6 +69,19 @@ for agent in "$SCRIPT_DIR"/agents/*.md; do
     info "$name"
 done
 
+# --- Agent knowledge base ---
+if [ -d "$SCRIPT_DIR/agents/knowledge" ]; then
+    mkdir -p "$CLAUDE_DIR/agents/knowledge"
+    for kb in "$SCRIPT_DIR"/agents/knowledge/*.md; do
+        [ -e "$kb" ] || continue
+        name="$(basename "$kb")"
+        target="$CLAUDE_DIR/agents/knowledge/$name"
+        backup_if_exists "$target"
+        ln -sf "$kb" "$target"
+        info "knowledge/$name"
+    done
+fi
+
 # --- CLAUDE.md ---
 echo ""
 echo "=== Installing CLAUDE.md ==="
