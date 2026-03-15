@@ -33,6 +33,16 @@ Session utilities (use anytime):
 /summarize <topic>   Search past sessions for a topic
 ```
 
+## Interactive Ecosystem Map
+
+See **[`docs/claude-ecosystem.html`](docs/claude-ecosystem.html)** for a full interactive chart of every command, agent, skill, hook, and MCP server — with a development pipeline view and decision tree for when to use what. Open it in any browser:
+
+```bash
+open docs/claude-ecosystem.html
+```
+
+Or use `/route` in any session to get an instant recommendation for your current task.
+
 ## What's Included
 
 ### Commands (`commands/`)
@@ -65,6 +75,12 @@ Session utilities (use anytime):
 | `frontend-engineer` | Opus (latest) | Staff frontend engineer specializing in React/Next.js, component architecture, responsive design, performance, and accessibility. Spawn for UI implementation and state management decisions. |
 | `ux-engineer` | Opus (latest) | UX/UI design engineer who thinks in user flows, interaction patterns, and visual systems. Spawn for design decisions, wireframing, design system creation, and interface critique. |
 | `tech-writer` | Sonnet (latest) | Technical writer for API docs, ADRs, changelogs, onboarding guides, and READMEs. Spawn when documentation needs to be created or updated alongside code changes. |
+
+### Skills (`skills/`)
+
+| Skill | Purpose |
+|---|---|
+| `/route` | Decision router — tells you exactly which command, agent, or skill to use for your current task |
 
 ### Hooks (`hooks/`)
 

@@ -82,6 +82,26 @@ if [ -d "$SCRIPT_DIR/agents/knowledge" ]; then
     done
 fi
 
+# --- Skills ---
+echo ""
+echo "=== Installing skills ==="
+if [ -d "$SCRIPT_DIR/skills" ]; then
+    for skill_dir in "$SCRIPT_DIR"/skills/*/; do
+        [ -d "$skill_dir" ] || continue
+        name="$(basename "$skill_dir")"
+        target_dir="$CLAUDE_DIR/skills/$name"
+        mkdir -p "$target_dir"
+        for skill_file in "$skill_dir"*; do
+            [ -e "$skill_file" ] || continue
+            fname="$(basename "$skill_file")"
+            target="$target_dir/$fname"
+            backup_if_exists "$target"
+            ln -sf "$skill_file" "$target"
+        done
+        info "$name"
+    done
+fi
+
 # --- CLAUDE.md ---
 echo ""
 echo "=== Installing CLAUDE.md ==="
@@ -117,6 +137,7 @@ echo ""
 echo "Installed:"
 echo "  Commands: $(ls "$SCRIPT_DIR"/commands/*.md | wc -l | tr -d ' ')"
 echo "  Agents:   $(ls "$SCRIPT_DIR"/agents/*.md 2>/dev/null | wc -l | tr -d ' ')"
+echo "  Skills:   $(find "$SCRIPT_DIR/skills" -name 'SKILL.md' 2>/dev/null | wc -l | tr -d ' ')"
 echo "  Hooks:    $(ls "$SCRIPT_DIR"/hooks/*.sh | wc -l | tr -d ' ')"
 echo "  CLAUDE.md: symlinked"
 echo ""

@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Ecosystem</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #232733;
+    --border: #2e3345;
+    --text: #e1e4ed;
+    --text-dim: #8b90a0;
+    --accent: #7c6cf0;
+    --accent-dim: #5b4fc7;
+    --green: #34d399;
+    --green-dim: #064e3b;
+    --blue: #60a5fa;
+    --blue-dim: #1e3a5f;
+    --amber: #fbbf24;
+    --amber-dim: #78350f;
+    --red: #f87171;
+    --red-dim: #7f1d1d;
+    --pink: #f472b6;
+    --pink-dim: #831843;
+    --cyan: #22d3ee;
+    --cyan-dim: #164e63;
+    --orange: #fb923c;
+    --orange-dim: #7c2d12;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    padding: 32px;
+    line-height: 1.6;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-bottom: 40px;
+  }
+
+  /* Tab navigation */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Pipeline view */
+  .pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .pipeline-stage {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .pipeline-stage:last-child { border-bottom: none; }
+
+  .stage-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding-top: 4px;
+  }
+
+  .stage-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .arrow-down {
+    position: absolute;
+    left: 80px;
+    bottom: -12px;
+    color: var(--text-dim);
+    font-size: 18px;
+    z-index: 1;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    cursor: default;
+    transition: all 0.2s;
+    position: relative;
+    max-width: 280px;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(124, 108, 240, 0.15);
+  }
+
+  .card .name {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card .desc {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .badge-command { background: var(--green-dim); color: var(--green); }
+  .badge-agent { background: var(--blue-dim); color: var(--blue); }
+  .badge-skill { background: var(--amber-dim); color: var(--amber); }
+  .badge-hook { background: var(--red-dim); color: var(--red); }
+  .badge-mcp { background: var(--pink-dim); color: var(--pink); }
+  .badge-opus { background: var(--accent-dim); color: #a78bfa; }
+  .badge-sonnet { background: var(--cyan-dim); color: var(--cyan); }
+  .badge-auto { background: var(--surface2); color: var(--text-dim); }
+
+  .card.source-custom { border-left: 3px solid var(--accent); }
+  .card.source-substrate { border-left: 3px solid var(--orange); }
+  .card.source-builtin { border-left: 3px solid var(--text-dim); }
+
+  /* Grid layouts */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 32px 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title:first-child { margin-top: 0; }
+
+  .source-legend {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+    font-size: 11px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+
+  .source-legend span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-bar {
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .legend-custom { background: var(--accent); }
+  .legend-substrate { background: var(--orange); }
+  .legend-builtin { background: var(--text-dim); }
+
+  /* Flowchart */
+  .flowchart {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    overflow-x: auto;
+  }
+
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .flow-node {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .flow-command { background: var(--green-dim); color: var(--green); border: 1px solid #065f46; }
+  .flow-agent { background: var(--blue-dim); color: var(--blue); border: 1px solid #1e40af; }
+  .flow-skill { background: var(--amber-dim); color: var(--amber); border: 1px solid #92400e; }
+  .flow-hook { background: var(--red-dim); color: var(--red); border: 1px solid #991b1b; }
+  .flow-arrow { color: var(--text-dim); font-size: 16px; flex-shrink: 0; }
+  .flow-label { color: var(--text-dim); font-size: 10px; font-style: italic; }
+
+  .flow-group {
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 11px;
+    color: var(--text-dim);
+    z-index: 100;
+    min-width: 240px;
+    max-width: 360px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    line-height: 1.6;
+  }
+
+  .card:hover .tooltip { display: block; }
+
+  .tooltip strong { color: var(--text); }
+
+  /* Stats bar */
+  .stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 24px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .stat-number.c-green { color: var(--green); }
+  .stat-number.c-blue { color: var(--blue); }
+  .stat-number.c-amber { color: var(--amber); }
+  .stat-number.c-red { color: var(--red); }
+  .stat-number.c-pink { color: var(--pink); }
+  .stat-number.c-cyan { color: var(--cyan); }
+
+  /* Decision tree */
+  .decision {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .decision-q {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: var(--amber);
+  }
+
+  .decision-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+  }
+
+  .decision-opt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .decision-opt .when {
+    color: var(--text-dim);
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .decision-opt .use {
+    font-weight: 600;
+    color: var(--green);
+  }
+
+  @media (max-width: 768px) {
+    body { padding: 16px; }
+    .pipeline-stage { grid-template-columns: 1fr; }
+    .stage-label { margin-bottom: 8px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Claude Code Ecosystem</h1>
+<p class="subtitle">All commands, agents, skills, hooks, and MCP servers &mdash; and when to use them</p>
+
+<div class="stats">
+  <div class="stat"><div class="stat-number c-green">20</div><div class="stat-label">Commands</div></div>
+  <div class="stat"><div class="stat-number c-blue">18</div><div class="stat-label">Agents</div></div>
+  <div class="stat"><div class="stat-number c-amber">11</div><div class="stat-label">Skills</div></div>
+  <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
+  <div class="stat"><div class="stat-number c-pink">7</div><div class="stat-label">MCP Servers</div></div>
+</div>
+
+<div class="source-legend">
+  <span><span class="legend-bar legend-custom"></span> Your custom config (claude-code-config)</span>
+  <span><span class="legend-bar legend-substrate"></span> Agentic Substrate (claude-user-memory)</span>
+  <span><span class="legend-bar legend-builtin"></span> Claude Code built-in</span>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('pipeline')">Development Pipeline</button>
+  <button class="tab" onclick="showTab('commands')">Commands</button>
+  <button class="tab" onclick="showTab('agents')">Agents</button>
+  <button class="tab" onclick="showTab('skills')">Skills</button>
+  <button class="tab" onclick="showTab('hooks')">Hooks &amp; MCP</button>
+  <button class="tab" onclick="showTab('decisions')">When to Use What</button>
+</div>
+
+<!-- ==================== PIPELINE TAB ==================== -->
+<div id="pipeline" class="tab-content active">
+
+  <div class="pipeline">
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--amber);">Ideation</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /ideate</div>
+          <div class="desc">Creative exploration, challenge assumptions, shape MVP</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> product-manager</div>
+          <div class="desc">Challenge whether it should be built, define the problem</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> ux-engineer</div>
+          <div class="desc">User flows, interaction patterns early</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--orange);">Requirements</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /create-prd</div>
+          <div class="desc">Full PRD with acceptance criteria, scope, risks</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> product-manager</div>
+          <div class="desc">ICE scoring, prioritization, out-of-scope definition</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--cyan);">Research</div>
+      <div class="stage-tools">
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-command">cmd</span> /research</div>
+          <div class="desc">Fetch version-accurate docs from official sources</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> docs-researcher</div>
+          <div class="desc">High-speed documentation specialist, produces ResearchPack</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-skill">skill</span> research-methodology</div>
+          <div class="desc">Systematic approach for authoritative documentation</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--blue);">Architecture</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /architect</div>
+          <div class="desc">Four-pillar review + implementation phases with review gates</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> senior-engineer</div>
+          <div class="desc">System design, data model, tech selection, HTML diagrams</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> chief-architect</div>
+          <div class="desc">Orchestrates multi-agent projects (3+ capabilities)</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-command">cmd</span> /plan</div>
+          <div class="desc">Surgical, reversible implementation plan with rollback</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--green);">Design</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> ux-engineer</div>
+          <div class="desc">Wireframes, design tokens, interaction specs, responsive</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> frontend-engineer</div>
+          <div class="desc">Component architecture, state management, accessibility</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--accent);">Build</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /prime</div>
+          <div class="desc">Load project context before starting work</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /tdd</div>
+          <div class="desc">Strict Red-Green-Refactor cycle</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> senior-engineer</div>
+          <div class="desc">Core logic, APIs, backend, systems implementation</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> frontend-engineer</div>
+          <div class="desc">UI components, state, responsive, performance</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-command">cmd</span> /implement</div>
+          <div class="desc">Execute plan with up to 3 self-correction retries</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> code-implementer</div>
+          <div class="desc">Precision execution following Implementation Plans</div>
+        </div>
+        <div class="card source-builtin">
+          <div class="name"><span class="badge badge-agent">agent</span> test-writer</div>
+          <div class="desc">Comprehensive test generation for existing code</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--red);">Debug</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /bugfix &lt;desc&gt;</div>
+          <div class="desc">5-phase bug fix with repro, verification, attempt tracking</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-skill">skill</span> debug-issue</div>
+          <div class="desc">Systematic debugging workflow for errors and crashes</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> brahma-investigator</div>
+          <div class="desc">Root cause analysis with 3-retry limit</div>
+        </div>
+        <div class="card source-builtin">
+          <div class="name"><span class="badge badge-agent">agent</span> systems-debugger</div>
+          <div class="desc">C, memory issues, crashes, perf (low-level)</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-skill">skill</span> profile-code</div>
+          <div class="desc">Profile Python (cProfile) and C (perf, gprof)</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--pink);">Review</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /review-feature</div>
+          <div class="desc">4-pass review: bugs, logic, quality, product alignment</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> code-reviewer</div>
+          <div class="desc">Spawns /review-feature automatically after big features</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /security-audit</div>
+          <div class="desc">OWASP Top 10 security audit with auto-fix</div>
+        </div>
+        <div class="card source-builtin">
+          <div class="name"><span class="badge badge-agent">agent</span> security-reviewer</div>
+          <div class="desc">Vulnerabilities, unsafe patterns, security best practices</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-skill">skill</span> review-pr</div>
+          <div class="desc">PR review for correctness, security, style</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-skill">skill</span> quality-validation</div>
+          <div class="desc">Scoring rubrics and quality gates for plans/research</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> brahma-analyzer</div>
+          <div class="desc">Cross-artifact consistency and coverage validation</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--cyan);">Docs</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> tech-writer</div>
+          <div class="desc">API docs, ADRs, changelogs, READMEs, onboarding guides</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-skill">skill</span> explain-code</div>
+          <div class="desc">Visual diagrams and analogies for code explanation</div>
+        </div>
+      </div>
+      <div class="arrow-down">&darr;</div>
+    </div>
+
+    <div class="pipeline-stage">
+      <div class="stage-label" style="color: var(--green);">Ship</div>
+      <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /pre-ship</div>
+          <div class="desc">7 quality gates &mdash; all must pass before production</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> brahma-deployer</div>
+          <div class="desc">CI/CD, canary deployments, auto-rollback</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> brahma-monitor</div>
+          <div class="desc">Observability: metrics, logs, traces, SLI/SLO</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> brahma-optimizer</div>
+          <div class="desc">Auto-scaling, load balancing, performance tuning</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-title" style="margin-top: 40px;">Session Utilities (use anytime)</div>
+  <div class="grid">
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /tbc</div>
+      <div class="desc">Drop a bookmark before stepping away</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /catch-up</div>
+      <div class="desc">Summarize everything since last /tbc</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /summarize &lt;topic&gt;</div>
+      <div class="desc">Search past sessions for a topic</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /handover</div>
+      <div class="desc">Save session state for next session</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /generate-prompt</div>
+      <div class="desc">Expand rough prompt into structured requirements</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /launch-multiagent-team</div>
+      <div class="desc">Decision framework for when/how to use multi-agent teams</div>
+    </div>
+    <div class="card source-substrate">
+      <div class="name"><span class="badge badge-command">cmd</span> /workflow</div>
+      <div class="desc">Full Research &rarr; Plan &rarr; Implement in one command</div>
+    </div>
+    <div class="card source-substrate">
+      <div class="name"><span class="badge badge-command">cmd</span> /context</div>
+      <div class="desc">Analyze and optimize context configuration</div>
+    </div>
+    <div class="card source-substrate">
+      <div class="name"><span class="badge badge-skill">skill</span> context-engineering</div>
+      <div class="desc">Fight context rot (39% improvement, 84% token reduction)</div>
+    </div>
+    <div class="card source-substrate">
+      <div class="name"><span class="badge badge-skill">skill</span> pattern-recognition</div>
+      <div class="desc">Capture reusable patterns after implementations</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== COMMANDS TAB ==================== -->
+<div id="commands" class="tab-content">
+  <div class="section-title"><span style="color:var(--green);">&bull;</span> Custom Commands (claude-code-config)</div>
+  <div class="grid">
+    <div class="card source-custom"><div class="name">/ideate</div><div class="desc">Creative exploration &mdash; challenges assumptions, proposes pivots, shapes the MVP. Synthesizes optimal hybrid solutions, never false dichotomies.</div></div>
+    <div class="card source-custom"><div class="name">/create-prd</div><div class="desc">Generates full PRD with features, acceptance criteria, risks, launch plan, and explicit out-of-scope items.</div></div>
+    <div class="card source-custom"><div class="name">/architect</div><div class="desc">Four-pillar architecture review (components, data, failure modes, security). Generates interactive HTML diagrams. Implementation phases with mandatory review gates.</div></div>
+    <div class="card source-custom"><div class="name">/prime</div><div class="desc">Loads project structure, key files, and git state before starting work. Front-loads context.</div></div>
+    <div class="card source-custom"><div class="name">/tdd</div><div class="desc">Strict Red-Green-Refactor cycle with test quality checklist. Write the test first, watch it fail, then implement.</div></div>
+    <div class="card source-custom"><div class="name">/bugfix &lt;desc&gt;</div><div class="desc">5-phase bug fix: understand &rarr; reproduce &rarr; diagnose &rarr; fix &rarr; verify. Tracks attempts in .claude/bugs.md. Max 3 attempts then escalate.</div></div>
+    <div class="card source-custom"><div class="name">/review-feature</div><div class="desc">4-pass post-implementation review: bugs, logic, engineering quality, product alignment. End-to-end verification with feature table and stress testing.</div></div>
+    <div class="card source-custom"><div class="name">/security-audit</div><div class="desc">Comprehensive OWASP Top 10 security audit with auto-fix capability.</div></div>
+    <div class="card source-custom"><div class="name">/pre-ship</div><div class="desc">Final quality gate: 7 gates (build, semantics, edge cases, security, performance, DX, product alignment). All must pass.</div></div>
+    <div class="card source-custom"><div class="name">/generate-prompt</div><div class="desc">Expands a rough prompt into structured engineering requirements.</div></div>
+    <div class="card source-custom"><div class="name">/handover</div><div class="desc">Saves session state to auto-loading file + persists lessons to memory for next session.</div></div>
+    <div class="card source-custom"><div class="name">/tbc</div><div class="desc">Drops a bookmark (session ID + JSONL line count). Pair with /catch-up when you return.</div></div>
+    <div class="card source-custom"><div class="name">/catch-up</div><div class="desc">Summarizes everything since last /tbc: messages, files changed, decisions, current state.</div></div>
+    <div class="card source-custom"><div class="name">/summarize &lt;topic&gt;</div><div class="desc">Searches past JSONL session files for a topic. Produces summary with decisions, outcomes, open items.</div></div>
+    <div class="card source-custom"><div class="name">/launch-multiagent-team</div><div class="desc">Decision framework for when/how to launch multi-agent teams. Rules: 3+ independent streams, &lt;20% file overlap, 2-3 agent sweet spot.</div></div>
+  </div>
+
+  <div class="section-title"><span style="color:var(--orange);">&bull;</span> Agentic Substrate Commands</div>
+  <div class="grid">
+    <div class="card source-substrate"><div class="name">/research</div><div class="desc">Invokes docs-researcher for rapid documentation research with version-accurate sources. Produces ResearchPack.</div></div>
+    <div class="card source-substrate"><div class="name">/plan</div><div class="desc">Invokes implementation-planner to create surgical, reversible implementation plans with rollback procedures.</div></div>
+    <div class="card source-substrate"><div class="name">/implement</div><div class="desc">Invokes code-implementer to execute implementation plans with up to 3 self-correction retries.</div></div>
+    <div class="card source-substrate"><div class="name">/workflow</div><div class="desc">Full Research &rarr; Plan &rarr; Implement pipeline in one command. Orchestrated by chief-architect.</div></div>
+    <div class="card source-substrate"><div class="name">/context</div><div class="desc">Analyzes and optimizes context configuration. Prevents context rot, reduces token usage.</div></div>
+  </div>
+</div>
+
+<!-- ==================== AGENTS TAB ==================== -->
+<div id="agents" class="tab-content">
+  <div class="section-title"><span style="color:var(--accent);">&bull;</span> Custom Agents (claude-code-config)</div>
+  <div class="grid">
+    <div class="card source-custom"><div class="name">senior-engineer <span class="badge badge-opus">opus</span></div><div class="desc">Principal engineer with deep systems knowledge. Architecture, tech selection, performance, system design. Generates interactive HTML diagrams. Backed by engineering-kb.md knowledge base.</div></div>
+    <div class="card source-custom"><div class="name">code-reviewer <span class="badge badge-opus">opus</span></div><div class="desc">Delegates to /review-feature for 4-pass review. Spawned after big features. Always recommends the RIGHT fix, never shortcuts.</div></div>
+    <div class="card source-custom"><div class="name">product-manager <span class="badge badge-opus">opus</span></div><div class="desc">Owns "what" and "why." Ideation, requirements, PRDs, ICE scoring, scope management. Challenges whether things should be built at all.</div></div>
+    <div class="card source-custom"><div class="name">frontend-engineer <span class="badge badge-opus">opus</span></div><div class="desc">React/Next.js specialist. Component architecture, state management, responsive design, CSS 2026, accessibility, performance optimization.</div></div>
+    <div class="card source-custom"><div class="name">ux-engineer <span class="badge badge-opus">opus</span></div><div class="desc">User flows, interaction patterns, design systems. Spacing/color/typography systems, form/table/modal patterns. Always mobile-first.</div></div>
+    <div class="card source-custom"><div class="name">tech-writer <span class="badge badge-sonnet">sonnet</span></div><div class="desc">API docs, ADRs, changelogs, onboarding guides, READMEs. Writes for the reader who has zero context and is in a hurry.</div></div>
+  </div>
+
+  <div class="section-title"><span style="color:var(--orange);">&bull;</span> Agentic Substrate Agents</div>
+  <div class="grid">
+    <div class="card source-substrate"><div class="name">chief-architect</div><div class="desc">Master orchestrator for complex, multi-faceted projects. Coordinates specialist agents (researchers, planners, implementers).</div></div>
+    <div class="card source-substrate"><div class="name">docs-researcher</div><div class="desc">High-speed documentation specialist. Fetches version-accurate docs. Delivers ResearchPack in &lt; 2 minutes.</div></div>
+    <div class="card source-substrate"><div class="name">implementation-planner</div><div class="desc">Transforms ResearchPacks into surgical, reversible implementation plans with rollback procedures.</div></div>
+    <div class="card source-substrate"><div class="name">code-implementer</div><div class="desc">Precision execution following Implementation Plans. Surgical edits with 3-retry self-correction.</div></div>
+    <div class="card source-substrate"><div class="name">brahma-analyzer</div><div class="desc">Cross-artifact consistency and coverage analysis. Validates alignment between specs, plans, tasks, and implementation.</div></div>
+    <div class="card source-substrate"><div class="name">brahma-investigator</div><div class="desc">Root cause analysis and debugging specialist with 3-retry limit. Systematic problem diagnosis.</div></div>
+    <div class="card source-substrate"><div class="name">brahma-deployer</div><div class="desc">Production deployment: CI/CD pipelines, canary deployments with auto-rollback, infrastructure provisioning.</div></div>
+    <div class="card source-substrate"><div class="name">brahma-monitor</div><div class="desc">Observability: metrics, logs, traces (three pillars). SLI/SLO tracking, incident detection, proactive alerting.</div></div>
+    <div class="card source-substrate"><div class="name">brahma-optimizer</div><div class="desc">Performance optimization: horizontal/vertical scaling, load balancing, caching strategies, continuous tuning.</div></div>
+  </div>
+
+  <div class="section-title"><span style="color:var(--text-dim);">&bull;</span> Claude Code Built-in Agents</div>
+  <div class="grid">
+    <div class="card source-builtin"><div class="name">security-reviewer <span class="badge badge-sonnet">sonnet</span></div><div class="desc">Security audit specialist. Reviews code for vulnerabilities, unsafe patterns, and security best practices.</div></div>
+    <div class="card source-builtin"><div class="name">test-writer</div><div class="desc">Test generation specialist. Writes comprehensive tests for existing code.</div></div>
+    <div class="card source-builtin"><div class="name">systems-debugger</div><div class="desc">Low-level systems debugging for C, memory issues, crashes, and performance problems.</div></div>
+  </div>
+</div>
+
+<!-- ==================== SKILLS TAB ==================== -->
+<div id="skills" class="tab-content">
+  <div class="section-title"><span style="color:var(--amber);">&bull;</span> All Skills</div>
+  <div class="grid">
+    <div class="card source-substrate"><div class="name">research-methodology</div><div class="desc">Systematic approach for gathering authoritative, version-accurate documentation. Ensures truth over speed.</div></div>
+    <div class="card source-substrate"><div class="name">planning-methodology</div><div class="desc">Creates minimal-change, reversible implementation plans. Emphasizes simplicity, safety, and clear verification steps.</div></div>
+    <div class="card source-substrate"><div class="name">quality-validation</div><div class="desc">Scoring rubrics and quality gates for ResearchPacks and Implementation Plans. Prevents garbage-in-garbage-out.</div></div>
+    <div class="card source-substrate"><div class="name">context-engineering</div><div class="desc">Active context curation to fight context rot. 39% improvement in quality, 84% token reduction.</div></div>
+    <div class="card source-substrate"><div class="name">pattern-recognition</div><div class="desc">Identifies and documents reusable patterns from implementations. Updates knowledge-core.md automatically.</div></div>
+    <div class="card source-substrate"><div class="name">explain-code</div><div class="desc">Explains code with visual diagrams and analogies. Teaching-oriented code walkthroughs.</div></div>
+    <div class="card source-substrate"><div class="name">debug-issue</div><div class="desc">Systematic debugging workflow for errors, test failures, crashes, or unexpected behavior.</div></div>
+    <div class="card source-substrate"><div class="name">review-pr</div><div class="desc">Reviews pull requests for correctness, security, and style.</div></div>
+    <div class="card source-substrate"><div class="name">fix-issue</div><div class="desc">Fixes GitHub issues end-to-end with tests and commits.</div></div>
+    <div class="card source-substrate"><div class="name">scaffold</div><div class="desc">Scaffolds new Python, C, and mixed projects with proper structure and tooling.</div></div>
+    <div class="card source-substrate"><div class="name">profile-code</div><div class="desc">Profiles code for performance issues. Python (cProfile) and C (perf, gprof).</div></div>
+  </div>
+</div>
+
+<!-- ==================== HOOKS & MCP TAB ==================== -->
+<div id="hooks" class="tab-content">
+  <div class="section-title"><span style="color:var(--red);">&bull;</span> Hooks</div>
+  <div class="grid">
+    <div class="card source-custom"><div class="name">block-dangerous.sh <span class="badge badge-hook">PreToolUse</span></div><div class="desc">Blocks rm -rf /, force push, sudo, hard reset in Bash commands</div></div>
+    <div class="card source-custom"><div class="name">format-python.sh <span class="badge badge-hook">PostToolUse</span></div><div class="desc">Auto-formats .py files with black after Write/Edit</div></div>
+    <div class="card source-custom"><div class="name">format-c.sh <span class="badge badge-hook">PostToolUse</span></div><div class="desc">Auto-formats C/C++ files with clang-format after Write/Edit</div></div>
+    <div class="card source-custom"><div class="name">notify-macos.sh <span class="badge badge-hook">Notification</span></div><div class="desc">macOS desktop notifications when Claude needs attention</div></div>
+    <div class="card source-custom"><div class="name">reinject-context.sh <span class="badge badge-hook">SessionStart</span></div><div class="desc">Re-injects git state after context compaction</div></div>
+    <div class="card source-custom"><div class="name">statusline.sh <span class="badge badge-hook">StatusLine</span></div><div class="desc">Shows model, context usage bar, and session cost</div></div>
+    <div class="card source-custom"><div class="name">audit-config.sh <span class="badge badge-hook">ConfigChange</span></div><div class="desc">Logs config changes to ~/claude-config-audit.log</div></div>
+  </div>
+
+  <div class="section-title"><span style="color:var(--pink);">&bull;</span> MCP Servers</div>
+  <div class="grid">
+    <div class="card source-custom"><div class="name">sequential-thinking <span class="badge badge-mcp">MCP</span></div><div class="desc">Step-by-step reasoning for complex problems</div></div>
+    <div class="card source-custom"><div class="name">filesystem <span class="badge badge-mcp">MCP</span></div><div class="desc">File system operations via MCP protocol</div></div>
+    <div class="card source-custom"><div class="name">context7 <span class="badge badge-mcp">MCP</span></div><div class="desc">Up-to-date library documentation from Upstash</div></div>
+    <div class="card source-custom"><div class="name">playwright <span class="badge badge-mcp">MCP</span></div><div class="desc">Browser automation, E2E testing, web scraping</div></div>
+    <div class="card source-custom"><div class="name">aws <span class="badge badge-mcp">MCP</span></div><div class="desc">AWS service management and infrastructure</div></div>
+    <div class="card source-custom"><div class="name">docker <span class="badge badge-mcp">MCP</span></div><div class="desc">Docker container management and orchestration</div></div>
+    <div class="card source-custom"><div class="name">k8s <span class="badge badge-mcp">MCP</span></div><div class="desc">Kubernetes cluster management and deployment</div></div>
+  </div>
+</div>
+
+<!-- ==================== DECISIONS TAB ==================== -->
+<div id="decisions" class="tab-content">
+
+  <div class="decision">
+    <div class="decision-q">I have a new product idea &mdash; where do I start?</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Explore and stress-test the idea</div><div class="use">/ideate + product-manager agent</div></div>
+      <div class="decision-opt"><div class="when">Lock requirements into a document</div><div class="use">/create-prd + product-manager agent</div></div>
+      <div class="decision-opt"><div class="when">Need UI/UX direction early</div><div class="use">ux-engineer agent (user flows, wireframes)</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">I need to design the system architecture</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Architecture review with diagrams</div><div class="use">/architect (generates HTML diagrams)</div></div>
+      <div class="decision-opt"><div class="when">Deep tech selection / system design</div><div class="use">senior-engineer agent (uses engineering-kb.md)</div></div>
+      <div class="decision-opt"><div class="when">Need to research unfamiliar tech first</div><div class="use">/research &rarr; docs-researcher agent</div></div>
+      <div class="decision-opt"><div class="when">Complex multi-domain project</div><div class="use">chief-architect agent (orchestrates sub-agents)</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">I'm ready to write code</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Starting a new session</div><div class="use">/prime (load project context first)</div></div>
+      <div class="decision-opt"><div class="when">Test-driven development</div><div class="use">/tdd (strict Red-Green-Refactor)</div></div>
+      <div class="decision-opt"><div class="when">Backend / systems / API work</div><div class="use">senior-engineer agent</div></div>
+      <div class="decision-opt"><div class="when">Frontend / React / Next.js</div><div class="use">frontend-engineer agent</div></div>
+      <div class="decision-opt"><div class="when">Full pipeline (research &rarr; plan &rarr; build)</div><div class="use">/workflow (one command, orchestrated)</div></div>
+      <div class="decision-opt"><div class="when">New project from scratch</div><div class="use">scaffold skill + /prime</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">Something is broken</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Known bug with description</div><div class="use">/bugfix &lt;description&gt; (tracks attempts)</div></div>
+      <div class="decision-opt"><div class="when">Mysterious error or crash</div><div class="use">debug-issue skill (systematic workflow)</div></div>
+      <div class="decision-opt"><div class="when">C / memory / segfault / perf</div><div class="use">systems-debugger agent</div></div>
+      <div class="decision-opt"><div class="when">Complex system failure</div><div class="use">brahma-investigator agent (root cause analysis)</div></div>
+      <div class="decision-opt"><div class="when">Need to profile code</div><div class="use">profile-code skill (Python cProfile / C perf)</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">I need to review code</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Finished a big feature</div><div class="use">code-reviewer agent (auto 4-pass review)</div></div>
+      <div class="decision-opt"><div class="when">Manual feature review</div><div class="use">/review-feature (bugs, logic, quality, product)</div></div>
+      <div class="decision-opt"><div class="when">Security-focused audit</div><div class="use">/security-audit + security-reviewer agent</div></div>
+      <div class="decision-opt"><div class="when">PR review on GitHub</div><div class="use">review-pr skill</div></div>
+      <div class="decision-opt"><div class="when">Cross-artifact consistency</div><div class="use">brahma-analyzer agent</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">I need documentation</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">API docs, ADRs, changelogs, READMEs</div><div class="use">tech-writer agent</div></div>
+      <div class="decision-opt"><div class="when">Explain existing code to someone</div><div class="use">explain-code skill (visual diagrams + analogies)</div></div>
+      <div class="decision-opt"><div class="when">Research external library docs</div><div class="use">/research &rarr; docs-researcher agent</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">I'm ready to ship</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Final quality check</div><div class="use">/pre-ship (7 gates, all must pass)</div></div>
+      <div class="decision-opt"><div class="when">Production deployment</div><div class="use">brahma-deployer agent (canary + auto-rollback)</div></div>
+      <div class="decision-opt"><div class="when">Set up monitoring</div><div class="use">brahma-monitor agent (metrics, logs, traces)</div></div>
+      <div class="decision-opt"><div class="when">Performance / scaling concerns</div><div class="use">brahma-optimizer agent</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">Session management</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Stepping away mid-session</div><div class="use">/tbc (bookmark) &rarr; /catch-up (when back)</div></div>
+      <div class="decision-opt"><div class="when">End of session</div><div class="use">/handover (saves state for next session)</div></div>
+      <div class="decision-opt"><div class="when">What did I do last week?</div><div class="use">/summarize &lt;topic&gt; (searches past sessions)</div></div>
+      <div class="decision-opt"><div class="when">Context getting bloated</div><div class="use">/context + context-engineering skill</div></div>
+      <div class="decision-opt"><div class="when">Need multi-agent parallelism</div><div class="use">/launch-multiagent-team (decision framework)</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
