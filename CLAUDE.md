@@ -5,6 +5,7 @@
 - **Always think long-term.** Even when implementing a Phase 1 feature, design schemas, events, and interfaces with the future in mind. Add optional fields now that will be required later. The goal: zero-migration path from MVP to scale.
 - **Design for the right architecture, not current limitations.** Current code is a prototype, not a constraint. Ask: "what should this look like at scale?" then build toward that.
 - **Everything should be flexible and human-centric.** Features, components, and workflows should listen to the user and give them maximum control. Never restrict the user unnecessarily.
+- **Never present false dichotomies.** When facing a design tension (visible vs. hidden, simple vs. powerful, automatic vs. manual), don't present "A or B?" — synthesize the optimal answer. The best design is almost always a hybrid: progressive disclosure, smart defaults with overrides, contextual adaptation. Have an opinion and state it with conviction. Don't delegate product decisions back to the user when you can reason your way to the right answer.
 
 ## Engineering Standards — Distinguished Engineer Level
 Code like a Distinguished Engineer / Technical Fellow. These principles are non-negotiable and apply to every line of code in every project.
@@ -56,6 +57,37 @@ When the user reports a bug or asks you to fix something:
 - **After 3 failed attempts, STOP and ask the user for guidance.** Report what you tried and what you learned.
 - **Log every fix attempt** in `.claude/bugs.md` so future sessions have context.
 - For a more structured workflow, the user can invoke `/bugfix <description>`.
+
+## New Project Setup
+When creating ANY new project, scaffold these before writing feature code:
+
+### Required Files
+- `.env` — Environment variables (NEVER commit)
+- `.env.example` — Template with placeholder values so collaborators know what to set
+- `.gitignore` — Must include at minimum: `.env`, `node_modules/`, `dist/`, `.claude/`
+- `CLAUDE.md` — Project overview, architecture, and conventions
+
+### Required Structure
+```
+project/
+├── src/
+├── tests/
+├── docs/
+├── .claude/
+│   ├── skills/
+│   ├── agents/
+│   └── commands/
+└── scripts/
+```
+
+### Node.js Requirements
+Add to the entry point of every Node.js project:
+```js
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection:', reason);
+  process.exit(1);
+});
+```
 
 ## Code Quality & Scalability
 - Production-ready from the start. General-purpose, not brittle/case-specific.
