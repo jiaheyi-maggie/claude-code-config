@@ -19,7 +19,7 @@ warn()  { printf "${YELLOW}[skip]${RESET} %s\n" "$1"; }
 err()   { printf "${RED}[error]${RESET} %s\n" "$1"; }
 
 # Ensure ~/.claude exists
-mkdir -p "$CLAUDE_DIR/commands" "$CLAUDE_DIR/hooks"
+mkdir -p "$CLAUDE_DIR/commands" "$CLAUDE_DIR/hooks" "$CLAUDE_DIR/agents"
 
 backed_up=false
 backup_if_exists() {
@@ -57,6 +57,18 @@ for hook in "$SCRIPT_DIR"/hooks/*.sh; do
     info "$name"
 done
 
+# --- Agents ---
+echo ""
+echo "=== Installing agents ==="
+for agent in "$SCRIPT_DIR"/agents/*.md; do
+    [ -e "$agent" ] || continue
+    name="$(basename "$agent")"
+    target="$CLAUDE_DIR/agents/$name"
+    backup_if_exists "$target"
+    ln -sf "$agent" "$target"
+    info "$name"
+done
+
 # --- CLAUDE.md ---
 echo ""
 echo "=== Installing CLAUDE.md ==="
@@ -91,6 +103,7 @@ fi
 echo ""
 echo "Installed:"
 echo "  Commands: $(ls "$SCRIPT_DIR"/commands/*.md | wc -l | tr -d ' ')"
+echo "  Agents:   $(ls "$SCRIPT_DIR"/agents/*.md 2>/dev/null | wc -l | tr -d ' ')"
 echo "  Hooks:    $(ls "$SCRIPT_DIR"/hooks/*.sh | wc -l | tr -d ' ')"
 echo "  CLAUDE.md: symlinked"
 echo ""

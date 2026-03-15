@@ -55,6 +55,12 @@ Session utilities (use anytime):
 | `/tbc` | Session mgmt | Drops a bookmark in the current conversation — pair with `/catch-up` when you return |
 | `/catch-up` | Session mgmt | Summarizes everything that happened since the last `/tbc` bookmark — messages, files changed, decisions, current state |
 
+### Agents (`agents/`)
+
+| Agent | Model | Purpose |
+|---|---|---|
+| `code-reviewer` | Opus (latest) | Principal engineer 4-pass code review — automatically spawned after big feature implementations. Reviews bugs, logic, engineering quality, and product alignment. |
+
 ### Hooks (`hooks/`)
 
 | Hook | Event | Purpose |
