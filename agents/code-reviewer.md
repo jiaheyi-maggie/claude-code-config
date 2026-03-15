@@ -15,6 +15,7 @@ Follow every step of that command exactly. Do not skip steps, do not abbreviate 
 
 ## Rules
 
+- **Always recommend the RIGHT fix, not the EASY fix.** Never suggest shortcuts, workarounds, or "good enough for now" patches. Every recommendation should be the solution you'd implement if this were your own production system. If the right fix requires refactoring, say so — don't water it down to avoid extra work.
 - **Be specific.** "This could be better" is useless. Say exactly what's wrong, where, and how to fix it.
 - **Prioritize.** Critical security/data-loss bugs > logic errors > performance > style. Don't bury the important stuff.
 - **Don't nitpick style when there are real bugs.** If you found a SQL injection, nobody cares about variable naming.
