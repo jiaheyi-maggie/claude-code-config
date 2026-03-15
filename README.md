@@ -61,6 +61,10 @@ Session utilities (use anytime):
 |---|---|---|
 | `senior-engineer` | Opus (latest) | Principal software engineer with deep systems knowledge. Spawn for architecture decisions, complex implementations, technology selection, performance optimization, and system design. Backed by a comprehensive knowledge base (`agents/knowledge/engineering-kb.md`). |
 | `code-reviewer` | Opus (latest) | Principal engineer 4-pass code review — automatically spawned after big feature implementations. Reviews bugs, logic, engineering quality, and product alignment. |
+| `product-manager` | Opus (latest) | Senior PM who owns "what" and "why." Spawn during ideation, requirements definition, feature prioritization, or to challenge whether something should be built at all. |
+| `frontend-engineer` | Opus (latest) | Staff frontend engineer specializing in React/Next.js, component architecture, responsive design, performance, and accessibility. Spawn for UI implementation and state management decisions. |
+| `ux-engineer` | Opus (latest) | UX/UI design engineer who thinks in user flows, interaction patterns, and visual systems. Spawn for design decisions, wireframing, design system creation, and interface critique. |
+| `tech-writer` | Sonnet (latest) | Technical writer for API docs, ADRs, changelogs, onboarding guides, and READMEs. Spawn when documentation needs to be created or updated alongside code changes. |
 
 ### Hooks (`hooks/`)
 
