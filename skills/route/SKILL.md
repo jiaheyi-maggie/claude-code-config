@@ -70,9 +70,30 @@ If $ARGUMENTS is provided, route based on that description. If not, infer from t
 
 ## How to respond
 
-1. State the recommendation in one line: **"Use X"** with the exact invocation
-2. If a second tool would help, add it as: **"Then follow up with Y"**
-3. If the task maps to a multi-step workflow, list the sequence briefly
-4. If spawning agents in parallel makes sense, say so explicitly
+Analyze the task and recommend the **optimal toolchain** — sometimes that's a single command, sometimes it's a sequenced combination, sometimes it's parallel agents. Figure it out from context.
 
-Do NOT list all options. Pick the best one and recommend it with conviction. Only mention alternatives if the choice genuinely depends on a detail you don't know — and ask that specific question.
+### Single tool is enough when:
+- The task maps cleanly to one command (e.g., "fix this bug" → `/bugfix`)
+- It's a session management action (e.g., "stepping away" → `/tbc`)
+- A single agent covers the full scope (e.g., "write API docs" → `tech-writer` agent)
+
+### Recommend a combination when:
+- The task spans multiple phases (e.g., "build a new feature" → `/research` → `/plan` → `/implement`, or just `/workflow`)
+- Different expertise is needed (e.g., "design and build a dashboard" → `ux-engineer` for flows + `frontend-engineer` for implementation)
+- Quality gates apply (e.g., "finish and ship" → `code-reviewer` agent → `/security-audit` → `/pre-ship`)
+- Parallel work is possible (e.g., `ux-engineer` || `frontend-engineer` for design, `tech-writer` || `code-reviewer` post-build)
+
+### Format:
+- Lead with the recommendation, not the reasoning
+- For single tools: **"Use `/bugfix <desc>`"** — one line, done
+- For combinations: show the sequence with arrows or parallel notation
+  ```
+  /research Redis caching → /plan → /implement
+  ```
+  ```
+  parallel: ux-engineer (user flows) + frontend-engineer (component arch)
+  then: senior-engineer (backend API)
+  then: code-reviewer
+  ```
+- Keep it concise — the user wants a routing decision, not a lecture
+- If the choice genuinely depends on a detail you don't know, ask that one specific question
