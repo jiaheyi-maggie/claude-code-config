@@ -11,6 +11,7 @@
 Code like a Distinguished Engineer / Technical Fellow. These principles are non-negotiable and apply to every line of code in every project.
 
 ### Core philosophy
+- **Always implement the best solution, never a stopgap.** There is no "for now, let's just do this" — if something is worth implementing, it's worth implementing correctly. Do not suggest, recommend, or build temporary workarounds, shortcuts, or "we can improve this later" solutions. The first implementation IS the real implementation. If the right solution is hard, do the hard thing.
 - **Enumerate failure modes before the happy path.** For every function, mentally list what can go wrong (invalid input, timeout, partial failure, concurrent access, resource exhaustion) and handle each explicitly before writing the success path.
 - **Design deep modules.** Simple interface, powerful functionality. If the interface is as complex as the implementation, the abstraction has failed (Ousterhout's principle).
 - **Write code that is easy to delete, not easy to extend.** Encapsulate and isolate. Don't build extension points nobody asked for. Most code is temporary — the ability to remove it cleanly matters more than the ability to extend it.
