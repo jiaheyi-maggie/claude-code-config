@@ -57,7 +57,43 @@ Re-read the original requirements/vision from Step 1, then for each change ask:
 - **Did I cut corners?** Are there requirements I quietly dropped or deferred without telling the user?
 - **User experience**: If I were the end user, would this feel right? Are there rough edges, confusing states, or missing feedback?
 
-## Step 4: Report
+## Step 4: End-to-end verification (MANDATORY — actually run the code)
+
+This is not a code-reading exercise. You must **run the system and verify every feature works**.
+
+### 4a: Build the feature table
+Find the feature list / acceptance criteria from Step 1 (PRD, CLAUDE.md, conversation history, or the current phase's scope). List every feature in a table:
+
+| # | Feature | Status | Notes |
+|---|---------|--------|-------|
+| 1 | [feature name] | PENDING | |
+| 2 | ... | PENDING | |
+
+### 4b: Test every feature
+For EACH feature in the table:
+1. **Start the application** (dev server, build, or whatever is needed)
+2. **Execute the feature's happy path** — trigger it exactly as a user would. Verify it produces the correct result.
+3. **Stress test the boundaries:**
+   - What happens with empty/missing input?
+   - What happens with maximum/oversized input?
+   - What happens when you do it twice rapidly (double-click, double-submit)?
+   - What happens when a dependency is unavailable (API down, DB unreachable)?
+   - What happens with concurrent usage (if applicable)?
+4. **Run the existing test suite** — `npm test`, `pytest`, `cargo test`, whatever the project uses. All tests must pass.
+5. **Update the table** — mark each feature as PASS, FAIL, or PARTIAL with specific notes on what broke.
+
+### 4c: Regression check
+Verify that features from PREVIOUS phases still work. New code can break old features — test at least the 3 most critical existing flows.
+
+### 4d: Results
+If ANY feature is FAIL or PARTIAL:
+- Fix it immediately
+- Re-run the verification for that feature AND any features that could be affected
+- Update the table
+
+Do NOT proceed to the report until all features are PASS.
+
+## Step 5: Report
 
 Present findings as a structured list:
 
@@ -71,10 +107,16 @@ Context: [your role] building [product] — feature: [what was implemented]
 
 2. ...
 
-### Verified
-- [x] [flow 1] works end-to-end
-- [x] [flow 2] works end-to-end
-- [ ] [flow 3] — issue found (see #N above)
+### Feature Verification
+| # | Feature | Status | Notes |
+|---|---------|--------|-------|
+| 1 | [feature] | PASS | verified end-to-end |
+| 2 | [feature] | PASS | stress tested with empty/max input |
+| 3 | [feature] | FIXED | failed on double-submit, added debounce |
+
+### Regression Check
+- [x] [prior feature 1] — still works
+- [x] [prior feature 2] — still works
 
 ### Verdict
 [PASS — ship it | ISSUES — fix N items before shipping]
