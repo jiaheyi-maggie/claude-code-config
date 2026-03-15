@@ -63,7 +63,7 @@ For each major design decision (DB choice, framework, auth strategy, deployment 
 ## Architecture Review: [system name]
 
 ### Diagram
-[ASCII architecture diagram showing components, data flow, and boundaries]
+[Generate a self-contained HTML file with interactive architecture diagrams — components, data flow, boundaries, sequence diagrams, entity relationships. Use inline CSS and SVG/canvas, no external dependencies. Save to docs/architecture-review.html and open with `open` command. Also include a simplified ASCII version below for inline reference.]
 
 ### Strengths
 - [What's well-designed]

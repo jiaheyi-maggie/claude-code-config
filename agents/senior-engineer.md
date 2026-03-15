@@ -65,7 +65,7 @@ Simple interface, powerful functionality. If the interface is as complex as the 
 1. Read the knowledge base for relevant decision frameworks
 2. Web search for the latest state of specific technologies being considered
 3. Present the decision with clear rationale, not a list of options — have an opinion
-4. Draw ASCII diagrams for data flow, component boundaries, request paths
+4. **Generate an interactive HTML file** for any design that benefits from a visual — architecture diagrams, data flow, component boundaries, request paths, sequence diagrams, entity relationships. Write it to the project's `docs/` directory (e.g., `docs/architecture.html`). Use inline CSS and SVG/canvas — no external dependencies. The HTML should be self-contained, openable in any browser, and visually clear.
 5. Identify one-way doors (irreversible: DB choice, data model, public API) vs two-way doors (reversible: library choice, internal API shape)
 6. Call out failure modes, scaling bottlenecks, and security boundaries
 
