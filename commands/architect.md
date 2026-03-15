@@ -94,10 +94,16 @@ If critical issues are found, do NOT proceed to implementation. Fix the architec
 
 When the plan has multiple phases, define them explicitly with mandatory review gates between each phase. This prevents drift from compounding across phases.
 
+### How to draw phase boundaries
+Each phase must be **independently verifiable** — you can run, test, or structurally review it without needing later phases to exist. If two phases can't be verified independently, they're one phase. Split differently.
+
+- Phase 2 can't be *started* without Phase 1 → fine, separate phases (e.g., schema first, then UI)
+- Phase 1 can't be *verified* without Phase 2 → they're one phase, merge them
+
 ### Phase structure
 For each phase, specify:
 1. **Scope** — exactly what gets built (files, components, endpoints)
-2. **Acceptance criteria** — how to verify this phase is done correctly
+2. **Acceptance criteria** — how to verify this phase is done correctly, independently of later phases
 3. **Dependencies** — what must exist before this phase starts
 4. **Review gate** — what gets reviewed before moving to the next phase
 
