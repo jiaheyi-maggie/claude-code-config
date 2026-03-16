@@ -388,7 +388,7 @@
 <div class="stats">
   <div class="stat"><div class="stat-number c-green">22</div><div class="stat-label">Commands</div></div>
   <div class="stat"><div class="stat-number c-blue">19</div><div class="stat-label">Agents</div></div>
-  <div class="stat"><div class="stat-number c-amber">11</div><div class="stat-label">Skills</div></div>
+  <div class="stat"><div class="stat-number c-amber">12</div><div class="stat-label">Skills</div></div>
   <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
   <div class="stat"><div class="stat-number c-pink">7</div><div class="stat-label">MCP Servers</div></div>
 </div>
@@ -694,6 +694,10 @@
       <div class="name"><span class="badge badge-skill">skill</span> pattern-recognition</div>
       <div class="desc">Capture reusable patterns after implementations</div>
     </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-skill">skill</span> /route</div>
+      <div class="desc">Decision router &mdash; recommends optimal tool(s) for current task</div>
+    </div>
   </div>
 </div>
 
@@ -737,10 +741,10 @@
     <div class="card source-custom"><div class="name">senior-engineer <span class="badge badge-opus">opus</span></div><div class="desc">Principal engineer with deep systems knowledge. Architecture, tech selection, performance, system design. Generates interactive HTML diagrams. Backed by engineering-kb.md knowledge base.</div></div>
     <div class="card source-custom"><div class="name">code-reviewer <span class="badge badge-opus">opus</span></div><div class="desc">Delegates to /review-feature for 4-pass review. Spawned after big features. Always recommends the RIGHT fix, never shortcuts.</div></div>
     <div class="card source-custom"><div class="name">product-manager <span class="badge badge-opus">opus</span></div><div class="desc">Owns "what" and "why." Ideation, requirements, PRDs, ICE scoring, scope management. Challenges whether things should be built at all.</div></div>
-    <div class="card source-custom"><div class="name">frontend-engineer <span class="badge badge-opus">opus</span></div><div class="desc">React/Next.js specialist. Component architecture, state management, responsive design, CSS 2026, accessibility, performance optimization.</div></div>
-    <div class="card source-custom"><div class="name">ux-engineer <span class="badge badge-opus">opus</span></div><div class="desc">User flows, interaction patterns, design systems. Spacing/color/typography systems, form/table/modal patterns. Always mobile-first.</div></div>
+    <div class="card source-custom"><div class="name">frontend-engineer <span class="badge badge-opus">opus</span></div><div class="desc">React/Next.js specialist. Component architecture, state management, responsive design, CSS 2026, accessibility, performance. Uses Playwright for visual verification before/after UI fixes.</div></div>
+    <div class="card source-custom"><div class="name">ux-engineer <span class="badge badge-opus">opus</span></div><div class="desc">User flows, interaction patterns, design systems. Spacing/color/typography systems, form/table/modal patterns. Mobile-first. Uses Playwright to screenshot before critiquing existing UI.</div></div>
     <div class="card source-custom"><div class="name">tech-writer <span class="badge badge-sonnet">sonnet</span></div><div class="desc">API docs, ADRs, changelogs, onboarding guides, READMEs. Writes for the reader who has zero context and is in a hurry.</div></div>
-    <div class="card source-custom"><div class="name">qa-engineer <span class="badge badge-opus">opus</span></div><div class="desc">Post-implementation QA. Verifies features against requirements, finds and fixes bugs, incorporates user tweaks, iterates until solid. Spawn when the first pass isn't quite right.</div></div>
+    <div class="card source-custom"><div class="name">qa-engineer <span class="badge badge-opus">opus</span></div><div class="desc">Post-implementation QA. Verifies features against requirements, finds and fixes bugs, incorporates user tweaks, iterates until solid. Uses Playwright for UI issues. Delegates to frontend-engineer and ux-engineer for specialized fixes.</div></div>
   </div>
 
   <div class="section-title"><span style="color:var(--orange);">&bull;</span> Agentic Substrate Agents</div>
@@ -779,6 +783,11 @@
     <div class="card source-substrate"><div class="name">fix-issue</div><div class="desc">Fixes GitHub issues end-to-end with tests and commits.</div></div>
     <div class="card source-substrate"><div class="name">scaffold</div><div class="desc">Scaffolds new Python, C, and mixed projects with proper structure and tooling.</div></div>
     <div class="card source-substrate"><div class="name">profile-code</div><div class="desc">Profiles code for performance issues. Python (cProfile) and C (perf, gprof).</div></div>
+  </div>
+
+  <div class="section-title"><span style="color:var(--accent);">&bull;</span> Custom Skills (claude-code-config)</div>
+  <div class="grid">
+    <div class="card source-custom"><div class="name">route</div><div class="desc">Decision router &mdash; recommends the optimal command, agent, or skill (single or combination) for your current task. Use /route or /route &lt;description&gt;.</div></div>
   </div>
 </div>
 
@@ -836,6 +845,16 @@
       <div class="decision-opt"><div class="when">Deep tech selection / system design</div><div class="use">senior-engineer agent (uses engineering-kb.md)</div></div>
       <div class="decision-opt"><div class="when">Need to research unfamiliar tech first</div><div class="use">/research &rarr; docs-researcher agent</div></div>
       <div class="decision-opt"><div class="when">Complex multi-domain project</div><div class="use">chief-architect agent (orchestrates sub-agents)</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">I need to design the UI</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">User flows, wireframes, interaction patterns</div><div class="use">ux-engineer agent</div></div>
+      <div class="decision-opt"><div class="when">Component architecture, state management</div><div class="use">frontend-engineer agent</div></div>
+      <div class="decision-opt"><div class="when">Full design phase (flows + components)</div><div class="use">ux-engineer + frontend-engineer in parallel</div></div>
+      <div class="decision-opt"><div class="when">Critique an existing UI</div><div class="use">ux-engineer agent (screenshots with Playwright first)</div></div>
     </div>
   </div>
 
