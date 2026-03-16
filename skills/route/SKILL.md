@@ -27,6 +27,10 @@ If $ARGUMENTS is provided, route based on that description. If not, infer from t
 - **Component architecture, state management?** → spawn `frontend-engineer` agent
 - **Both (full design phase)?** → spawn `ux-engineer` + `frontend-engineer` in parallel
 
+### "I have a list of features to build"
+- **Multiple features, need orchestration?** → `/build-features <list>` (DAG analysis, parallel agents, quality gates)
+- **Single feature?** → `/explore-feature` → `/plan` → build (don't need orchestration)
+
 ### "I'm ready to write code"
 - **Starting a new session?** → `/prime` first (loads project context)
 - **Test-driven development?** → `/tdd` (strict Red-Green-Refactor)

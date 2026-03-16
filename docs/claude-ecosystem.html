@@ -386,7 +386,7 @@
 <p class="subtitle">All commands, agents, skills, hooks, and MCP servers &mdash; and when to use them</p>
 
 <div class="stats">
-  <div class="stat"><div class="stat-number c-green">21</div><div class="stat-label">Commands</div></div>
+  <div class="stat"><div class="stat-number c-green">22</div><div class="stat-label">Commands</div></div>
   <div class="stat"><div class="stat-number c-blue">19</div><div class="stat-label">Agents</div></div>
   <div class="stat"><div class="stat-number c-amber">11</div><div class="stat-label">Skills</div></div>
   <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
@@ -511,6 +511,10 @@
     <div class="pipeline-stage">
       <div class="stage-label" style="color: var(--accent);">Build</div>
       <div class="stage-tools">
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /build-features</div>
+          <div class="desc">Orchestrate multi-feature builds with DAG analysis &amp; parallel agents</div>
+        </div>
         <div class="card source-custom">
           <div class="name"><span class="badge badge-command">cmd</span> /prime</div>
           <div class="desc">Load project context before starting work</div>
@@ -712,6 +716,7 @@
     <div class="card source-custom"><div class="name">/tbc</div><div class="desc">Drops a bookmark (session ID + JSONL line count). Pair with /catch-up when you return.</div></div>
     <div class="card source-custom"><div class="name">/catch-up</div><div class="desc">Summarizes everything since last /tbc: messages, files changed, decisions, current state.</div></div>
     <div class="card source-custom"><div class="name">/summarize &lt;topic&gt;</div><div class="desc">Searches past JSONL session files for a topic. Produces summary with decisions, outcomes, open items.</div></div>
+    <div class="card source-custom"><div class="name">/build-features &lt;list&gt;</div><div class="desc">Feature orchestrator. Takes a list of features, builds dependency DAG, designs shared contracts, coordinates parallel agents through build-review cycles with quality gates. Topological sort, zero file overlap enforcement, circuit breaker after 3 failures.</div></div>
     <div class="card source-custom"><div class="name">/launch-multiagent-team</div><div class="desc">Decision framework for when/how to launch multi-agent teams. Rules: 3+ independent streams, &lt;20% file overlap, 2-3 agent sweet spot.</div></div>
   </div>
 
@@ -812,6 +817,15 @@
       <div class="decision-opt"><div class="when">New feature in an existing project</div><div class="use">/explore-feature &lt;desc&gt; (reads codebase, maps against architecture)</div></div>
       <div class="decision-opt"><div class="when">Lock requirements into a document</div><div class="use">/create-prd + product-manager agent</div></div>
       <div class="decision-opt"><div class="when">Need UI/UX direction early</div><div class="use">ux-engineer agent (user flows, wireframes)</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">I have a list of features to build</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Multiple features, need orchestration</div><div class="use">/build-features (DAG analysis, parallel agents, quality gates)</div></div>
+      <div class="decision-opt"><div class="when">Single feature</div><div class="use">/explore-feature &rarr; /plan &rarr; build (no orchestration needed)</div></div>
+      <div class="decision-opt"><div class="when">Complex multi-domain project</div><div class="use">chief-architect agent + /build-features</div></div>
     </div>
   </div>
 
