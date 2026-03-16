@@ -387,7 +387,7 @@
 
 <div class="stats">
   <div class="stat"><div class="stat-number c-green">20</div><div class="stat-label">Commands</div></div>
-  <div class="stat"><div class="stat-number c-blue">18</div><div class="stat-label">Agents</div></div>
+  <div class="stat"><div class="stat-number c-blue">19</div><div class="stat-label">Agents</div></div>
   <div class="stat"><div class="stat-number c-amber">11</div><div class="stat-label">Skills</div></div>
   <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
   <div class="stat"><div class="stat-number c-pink">7</div><div class="stat-label">MCP Servers</div></div>
@@ -581,6 +581,10 @@
           <div class="name"><span class="badge badge-command">cmd</span> /security-audit</div>
           <div class="desc">OWASP Top 10 security audit with auto-fix</div>
         </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> qa-engineer</div>
+          <div class="desc">Verify against spec, fix bugs, incorporate tweaks, iterate</div>
+        </div>
         <div class="card source-builtin">
           <div class="name"><span class="badge badge-agent">agent</span> security-reviewer</div>
           <div class="desc">Vulnerabilities, unsafe patterns, security best practices</div>
@@ -726,6 +730,7 @@
     <div class="card source-custom"><div class="name">frontend-engineer <span class="badge badge-opus">opus</span></div><div class="desc">React/Next.js specialist. Component architecture, state management, responsive design, CSS 2026, accessibility, performance optimization.</div></div>
     <div class="card source-custom"><div class="name">ux-engineer <span class="badge badge-opus">opus</span></div><div class="desc">User flows, interaction patterns, design systems. Spacing/color/typography systems, form/table/modal patterns. Always mobile-first.</div></div>
     <div class="card source-custom"><div class="name">tech-writer <span class="badge badge-sonnet">sonnet</span></div><div class="desc">API docs, ADRs, changelogs, onboarding guides, READMEs. Writes for the reader who has zero context and is in a hurry.</div></div>
+    <div class="card source-custom"><div class="name">qa-engineer <span class="badge badge-opus">opus</span></div><div class="desc">Post-implementation QA. Verifies features against requirements, finds and fixes bugs, incorporates user tweaks, iterates until solid. Spawn when the first pass isn't quite right.</div></div>
   </div>
 
   <div class="section-title"><span style="color:var(--orange);">&bull;</span> Agentic Substrate Agents</div>
@@ -834,6 +839,16 @@
       <div class="decision-opt"><div class="when">C / memory / segfault / perf</div><div class="use">systems-debugger agent</div></div>
       <div class="decision-opt"><div class="when">Complex system failure</div><div class="use">brahma-investigator agent (root cause analysis)</div></div>
       <div class="decision-opt"><div class="when">Need to profile code</div><div class="use">profile-code skill (Python cProfile / C perf)</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">Implementation is done but not quite right</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Features have bugs or don't match spec</div><div class="use">qa-engineer agent (verifies, fixes, iterates)</div></div>
+      <div class="decision-opt"><div class="when">Want tweaks after seeing the result</div><div class="use">qa-engineer agent (accepts refinements in a loop)</div></div>
+      <div class="decision-opt"><div class="when">/review-feature keeps finding issues</div><div class="use">qa-engineer agent (fixes them, not just reports)</div></div>
+      <div class="decision-opt"><div class="when">Single known bug</div><div class="use">/bugfix &lt;description&gt;</div></div>
     </div>
   </div>
 

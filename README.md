@@ -75,6 +75,7 @@ Or use `/route` in any session to get an instant recommendation for your current
 | `frontend-engineer` | Opus (latest) | Staff frontend engineer specializing in React/Next.js, component architecture, responsive design, performance, and accessibility. Spawn for UI implementation and state management decisions. |
 | `ux-engineer` | Opus (latest) | UX/UI design engineer who thinks in user flows, interaction patterns, and visual systems. Spawn for design decisions, wireframing, design system creation, and interface critique. |
 | `tech-writer` | Sonnet (latest) | Technical writer for API docs, ADRs, changelogs, onboarding guides, and READMEs. Spawn when documentation needs to be created or updated alongside code changes. |
+| `qa-engineer` | Opus (latest) | Post-implementation QA. Verifies features against requirements, finds and fixes bugs, incorporates user tweaks, and iterates until solid. Spawn when the first pass isn't quite right. |
 
 ### Skills (`skills/`)
 

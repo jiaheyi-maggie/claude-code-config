@@ -35,6 +35,12 @@ If $ARGUMENTS is provided, route based on that description. If not, infer from t
 - **Execute an existing plan?** → `/implement` (3 self-correction retries)
 - **New project from scratch?** → `scaffold` skill + `/prime`
 
+### "Implementation is done but not quite right"
+- **Features have bugs or don't match the spec?** → spawn `qa-engineer` agent (verifies every feature against requirements, fixes bugs, iterates)
+- **Want tweaks after seeing the result?** → spawn `qa-engineer` agent (accepts refinements in a loop until you're satisfied)
+- **`/review-feature` keeps finding issues?** → spawn `qa-engineer` agent (it fixes them, not just reports)
+- **Single known bug?** → `/bugfix <description>` (lighter weight, tracks attempts)
+
 ### "Something is broken"
 - **Known bug, need structured fix?** → `/bugfix <description>` (tracks attempts in .claude/bugs.md)
 - **Mysterious error or test failure?** → `debug-issue` skill (systematic workflow)
