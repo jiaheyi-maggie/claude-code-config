@@ -10,7 +10,8 @@ If $ARGUMENTS is provided, route based on that description. If not, infer from t
 ## Decision tree
 
 ### "I have an idea / want to build something new"
-- **Exploring/brainstorming?** → `/ideate` + spawn `product-manager` agent
+- **Greenfield product idea?** → `/ideate` + spawn `product-manager` agent
+- **New feature inside an existing project?** → `/explore-feature <description>` (reads codebase, maps against existing architecture, proposes scoped approach)
 - **Need UI/UX direction?** → spawn `ux-engineer` agent
 - **Ready to lock requirements?** → `/create-prd` + spawn `product-manager` agent
 

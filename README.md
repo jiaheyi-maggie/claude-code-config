@@ -7,7 +7,8 @@ Personal Claude Code configuration — commands, hooks, settings, and global ins
 These commands map to a complete product development workflow:
 
 ```
-/ideate              Think divergently, stress-test the idea
+/ideate              Think divergently, stress-test the idea (greenfield)
+/explore-feature     Explore a feature within an existing project (scoped)
     ↓
 /create-prd          Lock requirements into a PRD
     ↓
@@ -49,7 +50,8 @@ Or use `/route` in any session to get an instant recommendation for your current
 
 | Command | Phase | Purpose |
 |---|---|---|
-| `/ideate` | Ideation | Creative exploration — challenges assumptions, proposes pivots, shapes the MVP |
+| `/ideate` | Ideation | Creative exploration — challenges assumptions, proposes pivots, shapes the MVP (greenfield) |
+| `/explore-feature <desc>` | Ideation | Scoped feature exploration within an existing project — reads codebase, maps against existing architecture, proposes approach |
 | `/create-prd` | Planning | Generates a full PRD with features, acceptance criteria, risks, and launch plan |
 | `/architect` | Design | Four-pillar architecture review (components, data, failure modes, security) |
 | `/prime` | Context | Loads project structure, key files, and git state before starting work |

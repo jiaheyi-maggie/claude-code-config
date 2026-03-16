@@ -386,7 +386,7 @@
 <p class="subtitle">All commands, agents, skills, hooks, and MCP servers &mdash; and when to use them</p>
 
 <div class="stats">
-  <div class="stat"><div class="stat-number c-green">20</div><div class="stat-label">Commands</div></div>
+  <div class="stat"><div class="stat-number c-green">21</div><div class="stat-label">Commands</div></div>
   <div class="stat"><div class="stat-number c-blue">19</div><div class="stat-label">Agents</div></div>
   <div class="stat"><div class="stat-number c-amber">11</div><div class="stat-label">Skills</div></div>
   <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
@@ -418,7 +418,11 @@
       <div class="stage-tools">
         <div class="card source-custom">
           <div class="name"><span class="badge badge-command">cmd</span> /ideate</div>
-          <div class="desc">Creative exploration, challenge assumptions, shape MVP</div>
+          <div class="desc">Greenfield exploration — challenge assumptions, shape MVP</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /explore-feature</div>
+          <div class="desc">Scoped feature exploration within an existing project</div>
         </div>
         <div class="card source-custom">
           <div class="name"><span class="badge badge-agent">agent</span> product-manager</div>
@@ -693,7 +697,8 @@
 <div id="commands" class="tab-content">
   <div class="section-title"><span style="color:var(--green);">&bull;</span> Custom Commands (claude-code-config)</div>
   <div class="grid">
-    <div class="card source-custom"><div class="name">/ideate</div><div class="desc">Creative exploration &mdash; challenges assumptions, proposes pivots, shapes the MVP. Synthesizes optimal hybrid solutions, never false dichotomies.</div></div>
+    <div class="card source-custom"><div class="name">/ideate</div><div class="desc">Greenfield creative exploration &mdash; challenges assumptions, proposes pivots, shapes the MVP. Synthesizes optimal hybrid solutions.</div></div>
+    <div class="card source-custom"><div class="name">/explore-feature &lt;desc&gt;</div><div class="desc">Scoped feature exploration within an existing project. Reads codebase, maps against existing architecture/data model/patterns, proposes the best approach. Outputs a feature brief ready for /architect.</div></div>
     <div class="card source-custom"><div class="name">/create-prd</div><div class="desc">Generates full PRD with features, acceptance criteria, risks, launch plan, and explicit out-of-scope items.</div></div>
     <div class="card source-custom"><div class="name">/architect</div><div class="desc">Four-pillar architecture review (components, data, failure modes, security). Generates interactive HTML diagrams. Implementation phases with mandatory review gates.</div></div>
     <div class="card source-custom"><div class="name">/prime</div><div class="desc">Loads project structure, key files, and git state before starting work. Front-loads context.</div></div>
@@ -801,9 +806,10 @@
 <div id="decisions" class="tab-content">
 
   <div class="decision">
-    <div class="decision-q">I have a new product idea &mdash; where do I start?</div>
+    <div class="decision-q">I want to build something &mdash; where do I start?</div>
     <div class="decision-options">
-      <div class="decision-opt"><div class="when">Explore and stress-test the idea</div><div class="use">/ideate + product-manager agent</div></div>
+      <div class="decision-opt"><div class="when">Greenfield product idea</div><div class="use">/ideate + product-manager agent</div></div>
+      <div class="decision-opt"><div class="when">New feature in an existing project</div><div class="use">/explore-feature &lt;desc&gt; (reads codebase, maps against architecture)</div></div>
       <div class="decision-opt"><div class="when">Lock requirements into a document</div><div class="use">/create-prd + product-manager agent</div></div>
       <div class="decision-opt"><div class="when">Need UI/UX direction early</div><div class="use">ux-engineer agent (user flows, wireframes)</div></div>
     </div>
