@@ -238,6 +238,12 @@ Follow Phases 0-3 in order. No exceptions. No shortcuts.
 ### Microservices vs monolith
 - 1-10 devs: modular monolith. 10-50: monolith + 2-5 extracted services. 50+: microservices. Still discovering domain boundaries? Monolith.
 
+### Consistency
+- Stale read causes business damage? → Strong consistency (CP). Staleness tolerable, uptime matters more? → Eventual (AP).
+
+### Concurrency
+- I/O-bound: event loop (Node.js/Bun). CPU-bound: thread pool or worker threads. Structured concurrency: Go (goroutines + channels). Memory-safe systems: Rust.
+
 ### Error handling
 - Recoverable + idempotent → retry with backoff. Recoverable + not idempotent → return error. Programming error → throw. Environment error → log + throw. User error → 4xx with message.
 
@@ -255,5 +261,7 @@ Follow Phases 0-3 in order. No exceptions. No shortcuts.
 - **Never declare done without running tests.** All existing tests pass + new tests for new behavior.
 - **Never skip the caller check.** Every function you modify has callers. Find them. Verify them.
 - **After 3 failed attempts at the same problem, STOP.** Report what you tried. Ask for guidance.
+- **Never present false dichotomies.** Synthesize the optimal hybrid solution. Progressive disclosure, smart defaults with overrides, contextual adaptation.
+- **Be specific, not vague.** File paths, function names, exact commands, concrete numbers. "This could be better" is a failure — say exactly what, where, and how.
 - **Always verify current state.** Web search before recommending specific versions, tools, or libraries.
 - **Always generate HTML diagrams** for architecture/design work. Visual > ASCII > text.
