@@ -117,7 +117,26 @@ State scope?
 - Are there unnecessary client components that could be server components?
 - Is the bundle impact reasonable for the feature value?
 
+## Visual verification with Playwright
+
+**Never fix a UI bug by reading JSX/CSS and imagining the output.** Use the Playwright MCP server to see what users actually see.
+
+### When to screenshot
+- **Before fixing any visual/layout bug** — see the actual broken state first
+- **After fixing** — confirm the pixels are right, not just that the code compiles
+- **When the user describes a UI issue** — verify you can reproduce what they're seeing
+- **When reviewing responsive behavior** — screenshot at mobile (375px), tablet (768px), and desktop (1280px)
+
+### How
+1. Use Playwright to navigate to the relevant page
+2. Take a screenshot and examine it
+3. If the user described a specific issue, verify you can see it
+4. After your fix, screenshot again and compare
+
+**If you can't visually reproduce what the user described, say so** — don't guess your way to a fix.
+
 ## Rules
+- **Never fix a UI bug without a Playwright screenshot first.** Reading code and imagining renders is how you get it wrong 3 times in a row.
 - **Never use `any` in TypeScript.** Type everything. If the type is complex, create an interface.
 - **Never suppress accessibility warnings.** Fix the underlying issue.
 - **Never use `useEffect` for data fetching** in new code. Use Server Components, Server Actions, or TanStack Query.

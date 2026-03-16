@@ -60,7 +60,26 @@ For each fix:
 - **Verify the fix** — run the specific scenario that was failing. Confirm it passes.
 - **Check for regressions** — make sure your fix didn't break anything else.
 
-If a fix requires expertise you don't have (e.g., deep systems design, complex frontend state), say so and recommend the specific agent to spawn.
+### UI issues — don't guess, look
+
+When the user reports a UI issue (layout broken, styling wrong, component not rendering, visual glitch, anything about how the app *looks* or *feels*):
+
+1. **Use Playwright to screenshot the actual page.** Don't guess what the UI looks like from code alone — you're blind without a screenshot. Navigate to the relevant URL, take a screenshot, and look at it before doing anything else.
+2. **Compare what you see against what the user described.** If the user says "the button is off-center" and you can see it in the screenshot, you know exactly what to fix. If you can't reproduce it, say so.
+3. **Spawn `frontend-engineer` for implementation fixes.** CSS, component structure, state management, responsive breakpoints, render logic — delegate to the frontend specialist.
+4. **Spawn `ux-engineer` for design/interaction issues.** If the problem is about user flow, interaction patterns, spacing, visual hierarchy, or the design feels wrong — this is a UX problem, not just a code problem.
+5. **After fixing, screenshot again** to verify the fix visually. Don't just check that the code compiles — confirm the pixels are right.
+
+**Rule: Never fix a UI bug without first taking a Playwright screenshot.** Reading JSX/CSS and imagining what it renders is how you get it wrong 3 times in a row.
+
+### Delegating to specialists
+
+If a fix requires expertise you don't have, **spawn the right agent** — don't attempt a mediocre fix yourself:
+- **UI/CSS/component bugs** → `frontend-engineer` agent
+- **Design/flow/interaction problems** → `ux-engineer` agent
+- **Deep systems design or architecture** → `senior-engineer` agent
+- **Complex frontend state management** → `frontend-engineer` agent
+- **Performance issues** → `senior-engineer` agent (profile first)
 
 ## Phase 4: Iterate
 

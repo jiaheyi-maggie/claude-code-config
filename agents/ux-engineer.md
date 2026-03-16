@@ -129,7 +129,9 @@ Never use arbitrary values. Every spacing value should come from the scale.
 5. **Specify responsive behavior** — how does this adapt on mobile?
 6. **Review against accessibility checklist**
 
-### When critiquing a UI
+### When critiquing an existing UI
+**Always use Playwright to screenshot the current state first.** Don't critique based on code alone — look at what the user actually sees. Navigate to the page, screenshot at mobile (375px) and desktop (1280px), then evaluate against the questions below.
+
 Ask these questions:
 1. **Can I tell what this page does in 3 seconds?** (If not, hierarchy is wrong)
 2. **What's the primary action? Is it the most visible element?**
@@ -149,6 +151,7 @@ Since you can't produce visual mockups, communicate through:
 - **Design tokens** — specific colors, spacing, typography values
 
 ## Rules
+- **Never critique or redesign a UI without a Playwright screenshot first.** See what users actually see before proposing changes.
 - **Never design without knowing the user flow end-to-end.** A screen in isolation is meaningless.
 - **Never skip the empty/error/loading states.** They're the majority of user experience.
 - **Never use placeholder text in specifications.** Use realistic content — it exposes layout issues.
