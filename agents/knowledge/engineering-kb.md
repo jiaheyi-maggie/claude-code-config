@@ -296,3 +296,117 @@ O(n²) is fine when n < 1000 and operation is simple. O(n) with network calls pe
 - **One-way doors** (DB, language, public API): Design twice, choose boring.
 - **Two-way doors** (library, CI tool, internal API): Move fast, experiment.
 - **Novel tech justified when**: Solves a problem boring tech literally cannot, 10x+ improvement, isolated and replaceable.
+
+---
+
+## 11. Common Implementation Pitfalls
+
+### TypeScript / Node.js
+- **Stale closures in React hooks**: Variables captured in useEffect/useCallback hold stale values if not in the dependency array. Always list every external variable.
+- **Promise.all is all-or-nothing**: One rejection kills the entire batch. Use `Promise.allSettled` for independent items where partial success is acceptable.
+- **`undefined === undefined` is `true`**: Two missing env vars compare as equal. Always check existence: `if (!process.env.SECRET) throw new Error('SECRET not set')`.
+- **Buffer is not JSON-serializable**: `JSON.stringify(buffer)` produces `{"type":"Buffer","data":[...]}`. Write buffers directly with `writeFile`.
+- **Async generators return `AsyncIterable`, not `Promise<AsyncIterable>`**: Don't wrap the return type.
+- **`appendFile` for append patterns**: Don't `readFile` + concat + `writeFile` when you only need to append.
+- **Readonly tuple `.includes()` needs a cast**: `(CATEGORIES as readonly string[]).includes(val)`.
+
+### React / Next.js
+- **Never mutate state during render**: Use `useEffect` for syncing derived state, not inline `if` checks that call `setState`.
+- **Hard navigation after auth changes**: `router.push` uses cached RSC responses. Use `window.location.href` after sign-out/sign-in.
+- **Missing focus management in modals**: Add `role="dialog"`, `aria-modal`, `tabIndex={-1}`, keydown listener for Escape.
+- **Client/server mismatch (hydration errors)**: Never use `Date.now()`, `Math.random()`, or browser APIs in Server Component render. Use `useEffect` or `"use client"`.
+- **useEffect for data fetching**: In new Next.js code, use Server Components, Server Actions, or TanStack Query — never `useEffect` + `fetch`.
+- **Missing Suspense boundaries**: Every async Server Component should be wrapped in `<Suspense>` with a meaningful fallback.
+
+### Database / SQL
+- **N+1 queries**: Fetching a list then querying each item individually. Use JOINs, batch queries (`WHERE id IN (...)`), or DataLoader pattern.
+- **Missing indexes**: Every column in a WHERE, JOIN ON, or ORDER BY clause needs an index. Composite indexes for multi-column queries.
+- **Unbounded queries**: `SELECT *` without LIMIT on tables that grow. Always paginate.
+- **Missing transactions for multi-step writes**: If two writes must succeed or fail together, wrap them in a transaction. Don't assume the DB will handle it.
+- **String interpolation in SQL**: NEVER `WHERE id = ${userId}`. Always use parameterized queries. Even for LIMIT/OFFSET.
+- **Connection pool exhaustion**: Default pool size is often 10. Long-running queries or leaked connections exhaust it. Set pool max, add timeout, log when pool is >80% utilized.
+- **Deadlocks from inconsistent lock ordering**: If two transactions lock rows A then B vs B then A, they deadlock. Always lock in a consistent order (e.g., by ID ascending).
+
+### API Design
+- **Missing validation at entry points**: Every public endpoint must validate and sanitize input BEFORE any business logic runs.
+- **Leaking internal errors**: Don't return stack traces or internal error details in 5xx responses. Log internally, return generic message to client.
+- **Missing idempotency keys**: POST endpoints that create resources need an idempotency key to handle retries safely.
+- **Inconsistent error format**: All errors should follow the same shape: `{ error: { code: string, message: string, details?: object } }`.
+- **Missing rate limiting on public endpoints**: Every public endpoint gets rate limiting. No exceptions.
+- **Version-locked API responses**: Include only the fields clients need. Adding a field is safe; changing or removing one breaks clients.
+
+### Concurrency
+- **Race conditions in shared mutable state**: If two async operations read-modify-write the same value, use a mutex or optimistic concurrency (version column + compare-and-swap).
+- **Token refresh stampede**: Multiple concurrent requests trigger parallel refresh calls. Use a per-account lock Map to serialize refreshes.
+- **Unbounded concurrency**: `promises.map(async item => ...)` launches all at once. Use a concurrency limiter (p-limit, batch processing) for external calls.
+- **Stream backpressure**: Reading faster than writing causes memory to grow unbounded. Always handle the `drain` event on writable streams.
+
+---
+
+## 12. Testing Patterns
+
+### Strategy
+- **Test behavior, not implementation**: Ask "if someone refactors the internals, should this test break?" If no, the test is testing the wrong thing.
+- **Unit tests for pure logic**: Functions with no side effects — input → output. Fast, isolated, many.
+- **Integration tests for boundaries**: Database queries, API endpoints, external service calls. Slower, but catch real bugs that unit tests miss.
+- **Never mock the database in integration tests**: Use a real test database. Mock/prod divergence masks broken migrations and query bugs.
+- **E2E tests for critical user flows**: Login, purchase, onboarding — the 3-5 flows that generate revenue. Playwright for UI.
+
+### Test structure
+```
+describe('[module/feature]', () => {
+  describe('[function/scenario]', () => {
+    it('should [expected behavior] when [condition]', () => {
+      // Arrange — set up test state
+      // Act — call the function/endpoint
+      // Assert — verify the result
+    });
+  });
+});
+```
+
+### What to test
+- Happy path (the intended use case)
+- Empty/null input
+- Invalid input (wrong type, out of range)
+- Boundary values (0, 1, max, max+1)
+- Error responses from dependencies (network timeout, 500, invalid JSON)
+- Concurrent access (two requests modifying the same resource)
+- Idempotency (calling the same operation twice produces the same result)
+
+### Coverage targets
+- New code: 80%+ line coverage as a baseline
+- Critical paths (auth, payments, data mutation): 95%+
+- Pure utility functions: 100%
+- Coverage is necessary but not sufficient — a test that asserts `true` has 100% coverage and catches nothing
+
+---
+
+## 13. Observability Patterns
+
+### What to log
+- **State transitions**: User created, order placed, payment processed, status changed
+- **External calls**: Every HTTP request, DB query, cache lookup — with duration and result
+- **Decisions**: When code takes a branch based on data ("user has no subscription, redirecting to pricing")
+- **Errors**: Every caught exception — with full context (user ID, request ID, input data)
+
+### Log levels
+- **ERROR**: Something is broken and needs attention NOW. Page-worthy.
+- **WARN**: Something unexpected happened but the system recovered. Review daily.
+- **INFO**: State transitions, business events, operational milestones. Default level in production.
+- **DEBUG**: Variable values, intermediate computation results. Off in production.
+
+### Structured format
+```json
+{
+  "level": "INFO",
+  "message": "Payment processed",
+  "traceId": "abc-123",
+  "userId": "usr_456",
+  "amount": 2999,
+  "currency": "USD",
+  "duration_ms": 342,
+  "provider": "stripe"
+}
+```
+Never log PII (email, phone, SSN). Log IDs instead.
