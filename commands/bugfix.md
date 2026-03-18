@@ -46,7 +46,11 @@ You are fixing a bug. Follow this protocol EXACTLY. Do not skip steps. Do not de
     - **NO → proceed to step 12.**
 12. **Run the broader test suite** (if one exists). Check for regressions.
 13. **Update the bug log** result to `FIXED`.
-14. **Report to the user:** One-line root cause, one-line fix, files changed.
+14. **Extract the pattern.** If this bug represents a generalizable class of error (not a one-off typo), save it to memory so it applies across ALL future projects:
+    - Save a feedback memory with: the bug class (e.g., "stale closure in useEffect"), the root cause pattern, and the fix pattern
+    - Example: "Bug class: React state update during render. Root cause: calling setState inside a conditional during render phase. Fix: move to useEffect. Apply: whenever modifying state based on props/other state."
+    - Skip this step for trivial bugs (typos, wrong variable names, missing imports)
+15. **Report to the user:** One-line root cause, one-line fix, files changed.
 
 ---
 

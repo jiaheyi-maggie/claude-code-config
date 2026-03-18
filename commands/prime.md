@@ -26,7 +26,16 @@ Identify:
 - Key components/modules
 - Test files and patterns
 
-## Step 4: Git state
+## Step 4: Bug history
+
+If `.claude/bugs.md` exists, read it. This contains:
+- Past bugs and their root causes
+- Failed fix attempts (so you don't repeat them)
+- Patterns that caused issues in this project
+
+Summarize any open/recurring bugs in your Step 6 summary.
+
+## Step 5: Git state
 
 ```bash
 git branch --show-current
@@ -34,7 +43,7 @@ git log --oneline -10
 git status
 ```
 
-## Step 5: Summarize
+## Step 6: Summarize
 
 Present a brief summary:
 ```
@@ -43,6 +52,7 @@ Stack: [languages, frameworks, databases]
 Structure: [monorepo/single-app, key directories]
 Current branch: [branch] — [what's in progress based on recent commits]
 Key files: [the most important files to know about]
+Known bugs: [any open/recurring bugs from .claude/bugs.md]
 Ready to work on: [what seems like the next task]
 ```
 

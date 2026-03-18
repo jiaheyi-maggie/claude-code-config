@@ -51,12 +51,13 @@ After completing any feature or milestone, run this checklist before declaring i
 
 ## Bug Fixing (MANDATORY)
 When the user reports a bug or asks you to fix something:
+- **FIRST: Read `.claude/bugs.md`** in the project root before attempting any fix. This file contains past bug reports, failed approaches, and root cause patterns. If this bug or a similar one was reported before, read what was already tried and EXPLICITLY avoid repeating failed approaches.
 - **NEVER claim a bug is fixed without running the code to verify.** "Fixed" means verified, not "I changed some code."
 - **Trace the actual execution path before writing any fix.** Pattern-matching on error messages is how you get it wrong 3 times in a row. Read the code, follow the data, understand why it breaks.
-- **Check `.claude/bugs.md` in the project root for prior attempts.** If this bug was reported before, read what was already tried and don't repeat failed approaches.
 - **If your first fix doesn't work, re-read the code from scratch** — your mental model is wrong. Don't keep tweaking the same area.
 - **After 3 failed attempts, STOP and ask the user for guidance.** Report what you tried and what you learned.
 - **Log every fix attempt** in `.claude/bugs.md` so future sessions have context.
+- **After fixing, extract the pattern.** If the bug represents a generalizable class of error, save it to memory (feedback type) so future sessions across ALL projects benefit. E.g., "stale closure in useEffect → always check dependency arrays."
 - For a more structured workflow, the user can invoke `/bugfix <description>`.
 
 ## New Project Setup
