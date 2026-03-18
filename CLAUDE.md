@@ -41,8 +41,14 @@ Code like a Distinguished Engineer / Technical Fellow. These principles are non-
 - **Think ahead when building.** When building new systems from scratch, think far ahead about scaling, optimization, and future needs. Let these considerations drive architecture and design decisions from the start — don't bolt them on later.
 - Never declare a milestone done if there are remaining items.
 
+## Post-Implementation Review (MANDATORY)
+After completing any feature, milestone, or significant implementation:
+1. **Spawn the `code-reviewer` agent.** This is NOT optional. Every feature gets a 4-pass review (bugs, logic, engineering quality, product alignment) before it's considered done. Use: `@code-reviewer` or invoke `/review-feature` directly.
+2. **Fix all CRITICAL and HIGH issues** found by the reviewer before declaring done.
+3. **If the feature has UI**, spawn `@qa-engineer` to verify visually with Playwright.
+
 ## Milestone Verification (MANDATORY)
-After completing any feature or milestone, run this checklist before declaring it done:
+After the code reviewer passes, run this checklist before declaring the milestone done:
 1. **Semantic audit:** For every handler/button/action, read the function name, then read the body — does it actually do what the name says? (e.g., `handleCategorizeAll` must call the categorize API, not `mark_read`)
 2. **User flow trace:** Walk through 3-5 critical user flows end-to-end: button click → handler → API call → DB mutation → UI update/redirect. Verify each link in the chain.
 3. **Navigation & auth flows:** Test sign-in, sign-out, and redirect behavior. Soft navigation (`router.push`) can serve stale cached pages — use hard navigation (`window.location.href`) when auth state changes.
