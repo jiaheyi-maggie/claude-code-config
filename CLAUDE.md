@@ -41,11 +41,14 @@ Code like a Distinguished Engineer / Technical Fellow. These principles are non-
 - **Think ahead when building.** When building new systems from scratch, think far ahead about scaling, optimization, and future needs. Let these considerations drive architecture and design decisions from the start — don't bolt them on later.
 - Never declare a milestone done if there are remaining items.
 
-## Post-Implementation Review (MANDATORY)
-After completing any feature, milestone, or significant implementation:
+## Post-Implementation Review (MANDATORY — DO NOT SKIP)
+After completing any feature, milestone, or significant implementation, you MUST run this sequence before saying "done", "complete", "finished", or "ready". If you are about to declare a feature complete and have NOT spawned the code-reviewer, STOP and spawn it first.
+
 1. **Spawn the `code-reviewer` agent.** This is NOT optional. Every feature gets a 4-pass review (bugs, logic, engineering quality, product alignment) before it's considered done. Use: `@code-reviewer` or invoke `/review-feature` directly.
 2. **Fix all CRITICAL and HIGH issues** found by the reviewer before declaring done.
 3. **If the feature has UI**, spawn `@qa-engineer` to verify visually with Playwright.
+
+**Self-check: Before telling the user a feature is done, ask yourself: "Did I run the code reviewer?" If the answer is no, you are not done.**
 
 ## Milestone Verification (MANDATORY)
 After the code reviewer passes, run this checklist before declaring the milestone done:
