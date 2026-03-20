@@ -82,6 +82,7 @@ Or use `/route` in any session to get an instant recommendation for your current
 | `ui-mockup` | Opus (latest) | Reviews the codebase, identifies unbuilt pages/features, generates detailed interactive HTML mockups with all states (empty/loading/populated/error). Iterates with user, then produces implementation specs for frontend-engineer and senior-engineer. |
 | `pitch-deck` | Opus (latest) | Builds polished interactive HTML pitch decks by deeply understanding the product from the codebase. Identifies the moat, structures the narrative, and presents the product in the best possible light with proper information hierarchy. |
 | `brand-strategist` | Opus (latest) | Brand and marketing strategist who reads the codebase, then writes compelling investor and market-facing materials — pitch decks, one-pagers, exec summaries, landing page copy, press releases, taglines, investor memos. Optimized to attract VCs. |
+| `visionary` | Opus (latest) | Visionary CTO / product futurist. Deep frontier tech knowledge + bold product thinking. Spawn for brainstorming, challenging assumptions, identifying what to build next, and pushing the team to think bigger. Modes: brainstorm, challenge, futures, moonshot, pivot. |
 
 ### Skills (`skills/`)
 
