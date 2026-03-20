@@ -17,6 +17,13 @@ If $ARGUMENTS is provided, route based on that description. If not, infer from t
 - **Need UI/UX direction?** → spawn `ux-engineer` agent
 - **Ready to lock requirements?** → `/create-prd` + spawn `product-manager` agent
 
+### "I have an AI engineering question"
+- **What model should I use for X?** → spawn `ai-engineer` agent (cost/quality tradeoff analysis)
+- **How is the industry doing X?** → spawn `ai-engineer` agent (competitive landscape, implementation patterns)
+- **What AI features should we build next?** → spawn `ai-engineer` agent (reads codebase + frontier capabilities)
+- **How should we integrate MCP / agents / RAG?** → spawn `ai-engineer` agent (production patterns, frameworks, architecture)
+- **What's the latest in AI?** → spawn `ai-engineer` agent (always web searches for recency)
+
 ### "I need to design the system"
 - **Architecture review with diagrams?** → `/architect` (generates interactive HTML)
 - **Deep tech selection / system design?** → spawn `senior-engineer` agent

@@ -387,7 +387,7 @@
 
 <div class="stats">
   <div class="stat"><div class="stat-number c-green">22</div><div class="stat-label">Commands</div></div>
-  <div class="stat"><div class="stat-number c-blue">23</div><div class="stat-label">Agents</div></div>
+  <div class="stat"><div class="stat-number c-blue">24</div><div class="stat-label">Agents</div></div>
   <div class="stat"><div class="stat-number c-amber">12</div><div class="stat-label">Skills</div></div>
   <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
   <div class="stat"><div class="stat-number c-pink">7</div><div class="stat-label">MCP Servers</div></div>
@@ -761,6 +761,7 @@
     <div class="card source-custom"><div class="name">pitch-deck <span class="badge badge-opus">opus</span></div><div class="desc">Builds polished interactive HTML pitch decks by deeply understanding the product from the codebase. Structures narrative around the moat, presents with proper information hierarchy.</div></div>
     <div class="card source-custom"><div class="name">brand-strategist <span class="badge badge-opus">opus</span></div><div class="desc">Brand and marketing strategist. Reads the codebase, then writes investor and market-facing materials: pitch decks, one-pagers, exec summaries, landing page copy, press releases, taglines, investor memos. Optimized to attract VCs.</div></div>
     <div class="card source-custom"><div class="name">visionary <span class="badge badge-opus">opus</span></div><div class="desc">Visionary CTO / product futurist. Deep frontier tech knowledge + bold product thinking. Brainstorming, challenging assumptions, identifying what to build next. Modes: brainstorm, challenge, futures, moonshot, pivot.</div></div>
+    <div class="card source-custom"><div class="name">ai-engineer <span class="badge badge-opus">opus</span></div><div class="desc">Staff AI engineer and industry analyst. Models, agent architectures, MCP, RAG, evals, AI UX, coding tools, competitive landscape. Backed by ai-engineering-kb-2026.md. Always web searches for latest before answering.</div></div>
   </div>
 
   <div class="section-title"><span style="color:var(--orange);">&bull;</span> Agentic Substrate Agents</div>
@@ -853,6 +854,16 @@
       <div class="decision-opt"><div class="when">Multiple features, need orchestration</div><div class="use">/build-features (DAG analysis, parallel agents, quality gates)</div></div>
       <div class="decision-opt"><div class="when">Single feature</div><div class="use">/explore-feature &rarr; /plan &rarr; build (no orchestration needed)</div></div>
       <div class="decision-opt"><div class="when">Complex multi-domain project</div><div class="use">chief-architect agent + /build-features</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">I have an AI engineering question</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">What model / framework / tool to use</div><div class="use">ai-engineer agent (cost/quality analysis, benchmarks)</div></div>
+      <div class="decision-opt"><div class="when">How is the industry doing X (MCP, agents, RAG)</div><div class="use">ai-engineer agent (competitive landscape, production patterns)</div></div>
+      <div class="decision-opt"><div class="when">What AI features should we build next</div><div class="use">ai-engineer agent (reads codebase + frontier capabilities)</div></div>
+      <div class="decision-opt"><div class="when">Latest developments in AI space</div><div class="use">ai-engineer agent (always web searches for recency)</div></div>
     </div>
   </div>
 
