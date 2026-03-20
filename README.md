@@ -81,6 +81,7 @@ Or use `/route` in any session to get an instant recommendation for your current
 | `qa-engineer` | Opus (latest) | Post-implementation QA. Verifies features against requirements, finds and fixes bugs, incorporates user tweaks, and iterates until solid. Spawn when the first pass isn't quite right. |
 | `ui-mockup` | Opus (latest) | Reviews the codebase, identifies unbuilt pages/features, generates detailed interactive HTML mockups with all states (empty/loading/populated/error). Iterates with user, then produces implementation specs for frontend-engineer and senior-engineer. |
 | `pitch-deck` | Opus (latest) | Builds polished interactive HTML pitch decks by deeply understanding the product from the codebase. Identifies the moat, structures the narrative, and presents the product in the best possible light with proper information hierarchy. |
+| `brand-strategist` | Opus (latest) | Brand and marketing strategist who reads the codebase, then writes compelling investor and market-facing materials — pitch decks, one-pagers, exec summaries, landing page copy, press releases, taglines, investor memos. Optimized to attract VCs. |
 
 ### Skills (`skills/`)
 

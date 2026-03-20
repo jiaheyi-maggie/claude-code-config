@@ -387,7 +387,7 @@
 
 <div class="stats">
   <div class="stat"><div class="stat-number c-green">22</div><div class="stat-label">Commands</div></div>
-  <div class="stat"><div class="stat-number c-blue">21</div><div class="stat-label">Agents</div></div>
+  <div class="stat"><div class="stat-number c-blue">22</div><div class="stat-label">Agents</div></div>
   <div class="stat"><div class="stat-number c-amber">12</div><div class="stat-label">Skills</div></div>
   <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
   <div class="stat"><div class="stat-number c-pink">7</div><div class="stat-label">MCP Servers</div></div>
@@ -755,6 +755,7 @@
     <div class="card source-custom"><div class="name">qa-engineer <span class="badge badge-opus">opus</span></div><div class="desc">Post-implementation QA. Verifies features against requirements, finds and fixes bugs, incorporates user tweaks, iterates until solid. Uses Playwright for UI issues. Delegates to frontend-engineer and ux-engineer for specialized fixes.</div></div>
     <div class="card source-custom"><div class="name">ui-mockup <span class="badge badge-opus">opus</span></div><div class="desc">Reviews codebase, identifies unbuilt pages/features, generates detailed interactive HTML mockups with all states. Iterates with user, then produces implementation specs for engineers.</div></div>
     <div class="card source-custom"><div class="name">pitch-deck <span class="badge badge-opus">opus</span></div><div class="desc">Builds polished interactive HTML pitch decks by deeply understanding the product from the codebase. Structures narrative around the moat, presents with proper information hierarchy.</div></div>
+    <div class="card source-custom"><div class="name">brand-strategist <span class="badge badge-opus">opus</span></div><div class="desc">Brand and marketing strategist. Reads the codebase, then writes investor and market-facing materials: pitch decks, one-pagers, exec summaries, landing page copy, press releases, taglines, investor memos. Optimized to attract VCs.</div></div>
   </div>
 
   <div class="section-title"><span style="color:var(--orange);">&bull;</span> Agentic Substrate Agents</div>
@@ -913,12 +914,14 @@
   </div>
 
   <div class="decision">
-    <div class="decision-q">I need UI mockups or a pitch deck</div>
+    <div class="decision-q">I need UI mockups, pitch deck, or marketing materials</div>
     <div class="decision-options">
       <div class="decision-opt"><div class="when">Need to see what unbuilt pages should look like</div><div class="use">ui-mockup agent (scans repo, generates interactive HTML mockups)</div></div>
       <div class="decision-opt"><div class="when">Want to iterate on a design before building</div><div class="use">ui-mockup agent (tweak loop until satisfied, then implementation spec)</div></div>
-      <div class="decision-opt"><div class="when">Need a pitch deck for investors, customers, or stakeholders</div><div class="use">pitch-deck agent (understands product from code, builds narrative)</div></div>
-      <div class="decision-opt"><div class="when">Need to present a project internally for buy-in</div><div class="use">pitch-deck agent (internal pitch mode)</div></div>
+      <div class="decision-opt"><div class="when">Need a pitch deck</div><div class="use">pitch-deck agent (interactive HTML presentations)</div></div>
+      <div class="decision-opt"><div class="when">Need investor materials (exec summary, one-pager, memo)</div><div class="use">brand-strategist agent (reads codebase, writes VC-optimized materials)</div></div>
+      <div class="decision-opt"><div class="when">Need marketing copy (landing page, press release, taglines)</div><div class="use">brand-strategist agent (product-aware marketing writer)</div></div>
+      <div class="decision-opt"><div class="when">Need consistent messaging across everything</div><div class="use">brand-strategist agent (produces messaging guide as standard output)</div></div>
     </div>
   </div>
 

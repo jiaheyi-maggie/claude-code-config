@@ -60,10 +60,13 @@ If $ARGUMENTS is provided, route based on that description. If not, infer from t
 - **PR review on GitHub?** → `review-pr` skill
 - **Cross-artifact consistency check?** → spawn `brahma-analyzer` agent
 
-### "I need UI mockups or a pitch deck"
+### "I need UI mockups, pitch deck, or marketing materials"
 - **Need to see what unbuilt pages should look like?** → spawn `ui-mockup` agent (scans repo, generates interactive HTML mockups, iterates with you)
 - **Want to iterate on a design before building?** → spawn `ui-mockup` agent (tweak loop, then produces implementation spec for `@frontend-engineer` + `@senior-engineer`)
-- **Need a pitch deck?** → spawn `pitch-deck` agent (understands product from codebase, builds polished HTML presentation with narrative arc)
+- **Need a pitch deck?** → spawn `pitch-deck` agent (interactive HTML presentations)
+- **Need investor materials (exec summary, one-pager, investor memo)?** → spawn `brand-strategist` agent (reads codebase, writes VC-optimized materials)
+- **Need marketing copy (landing page, press release, taglines)?** → spawn `brand-strategist` agent
+- **Need consistent messaging across all materials?** → spawn `brand-strategist` agent (produces messaging guide as standard output)
 
 ### "I need documentation"
 - **API docs, ADRs, changelogs, READMEs?** → spawn `tech-writer` agent
