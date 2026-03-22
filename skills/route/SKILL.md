@@ -56,8 +56,9 @@ If $ARGUMENTS is provided, route based on that description. If not, infer from t
 - **Single known bug?** → `/bugfix <description>` (lighter weight, tracks attempts)
 
 ### "Something is broken"
-- **Known bug, need structured fix?** → `/bugfix <description>` (tracks attempts in .claude/bugs.md)
-- **Mysterious error or test failure?** → `debug-issue` skill (systematic workflow)
+- **Bug I can describe, need deep systematic tracing?** → spawn `debugger` agent (reads full project context, traces exact logic chain, never guesses)
+- **Known bug, want structured tracking?** → `/bugfix <description>` (5-phase protocol, logs to .claude/bugs.md)
+- **Quick error or test failure?** → `debug-issue` skill (lightweight workflow)
 - **C / memory / segfault / perf?** → spawn `systems-debugger` agent
 - **Complex system failure?** → spawn `brahma-investigator` agent (root cause analysis)
 - **Need to profile performance?** → `profile-code` skill (Python cProfile / C perf)

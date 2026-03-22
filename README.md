@@ -84,6 +84,7 @@ Or use `/route` in any session to get an instant recommendation for your current
 | `brand-strategist` | Opus (latest) | Brand and marketing strategist who reads the codebase, then writes compelling investor and market-facing materials — pitch decks, one-pagers, exec summaries, landing page copy, press releases, taglines, investor memos. Optimized to attract VCs. |
 | `visionary` | Opus (latest) | Visionary CTO / product futurist. Deep frontier tech knowledge + bold product thinking. Spawn for brainstorming, challenging assumptions, identifying what to build next, and pushing the team to think bigger. Modes: brainstorm, challenge, futures, moonshot, pivot. |
 | `ai-engineer` | Opus (latest) | Staff AI engineer and industry analyst. Deep expertise in models, agent architectures, MCP, RAG, evals, AI UX, coding tools, and the competitive landscape. Backed by `agents/knowledge/ai-engineering-kb-2026.md`. Ask about what to build, how competitors do things, and where the industry is heading. |
+| `debugger` | Opus (latest) | Systematic deep debugger. Reads full project context first, builds mental model of architecture, then traces the exact logic chain for the described issue. Never guesses — forms hypotheses grounded in actual code. Spawn when something is broken and you need it found and fixed properly. |
 
 ### Skills (`skills/`)
 

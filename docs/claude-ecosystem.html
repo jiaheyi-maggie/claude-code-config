@@ -387,7 +387,7 @@
 
 <div class="stats">
   <div class="stat"><div class="stat-number c-green">22</div><div class="stat-label">Commands</div></div>
-  <div class="stat"><div class="stat-number c-blue">24</div><div class="stat-label">Agents</div></div>
+  <div class="stat"><div class="stat-number c-blue">25</div><div class="stat-label">Agents</div></div>
   <div class="stat"><div class="stat-number c-amber">12</div><div class="stat-label">Skills</div></div>
   <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
   <div class="stat"><div class="stat-number c-pink">11</div><div class="stat-label">MCP Servers</div></div>
@@ -563,12 +563,16 @@
       <div class="stage-label" style="color: var(--red);">Debug</div>
       <div class="stage-tools">
         <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> debugger</div>
+          <div class="desc">Deep systematic debugger — reads full context, traces logic chain</div>
+        </div>
+        <div class="card source-custom">
           <div class="name"><span class="badge badge-command">cmd</span> /bugfix &lt;desc&gt;</div>
           <div class="desc">5-phase bug fix with repro, verification, attempt tracking</div>
         </div>
         <div class="card source-substrate">
           <div class="name"><span class="badge badge-skill">skill</span> debug-issue</div>
-          <div class="desc">Systematic debugging workflow for errors and crashes</div>
+          <div class="desc">Lightweight debugging workflow for errors and crashes</div>
         </div>
         <div class="card source-substrate">
           <div class="name"><span class="badge badge-agent">agent</span> brahma-investigator</div>
@@ -762,6 +766,7 @@
     <div class="card source-custom"><div class="name">brand-strategist <span class="badge badge-opus">opus</span></div><div class="desc">Brand and marketing strategist. Reads the codebase, then writes investor and market-facing materials: pitch decks, one-pagers, exec summaries, landing page copy, press releases, taglines, investor memos. Optimized to attract VCs.</div></div>
     <div class="card source-custom"><div class="name">visionary <span class="badge badge-opus">opus</span></div><div class="desc">Visionary CTO / product futurist. Deep frontier tech knowledge + bold product thinking. Brainstorming, challenging assumptions, identifying what to build next. Modes: brainstorm, challenge, futures, moonshot, pivot.</div></div>
     <div class="card source-custom"><div class="name">ai-engineer <span class="badge badge-opus">opus</span></div><div class="desc">Staff AI engineer and industry analyst. Models, agent architectures, MCP, RAG, evals, AI UX, coding tools, competitive landscape. Backed by ai-engineering-kb-2026.md. Always web searches for latest before answering.</div></div>
+    <div class="card source-custom"><div class="name">debugger <span class="badge badge-opus">opus</span></div><div class="desc">Systematic deep debugger. Reads full project context, builds mental model, traces exact logic chain. Never guesses — hypotheses grounded in actual code. Handles UI bugs (Playwright), data bugs, and logic bugs.</div></div>
   </div>
 
   <div class="section-title"><span style="color:var(--orange);">&bull;</span> Agentic Substrate Agents</div>
@@ -910,8 +915,9 @@
   <div class="decision">
     <div class="decision-q">Something is broken</div>
     <div class="decision-options">
-      <div class="decision-opt"><div class="when">Known bug with description</div><div class="use">/bugfix &lt;description&gt; (tracks attempts)</div></div>
-      <div class="decision-opt"><div class="when">Mysterious error or crash</div><div class="use">debug-issue skill (systematic workflow)</div></div>
+      <div class="decision-opt"><div class="when">Bug I can describe, need deep systematic tracing</div><div class="use">debugger agent (reads full context, traces logic chain, never guesses)</div></div>
+      <div class="decision-opt"><div class="when">Known bug, want structured tracking</div><div class="use">/bugfix &lt;description&gt; (5-phase protocol, logs to bugs.md)</div></div>
+      <div class="decision-opt"><div class="when">Quick error or test failure</div><div class="use">debug-issue skill (lightweight workflow)</div></div>
       <div class="decision-opt"><div class="when">C / memory / segfault / perf</div><div class="use">systems-debugger agent</div></div>
       <div class="decision-opt"><div class="when">Complex system failure</div><div class="use">brahma-investigator agent (root cause analysis)</div></div>
       <div class="decision-opt"><div class="when">Need to profile code</div><div class="use">profile-code skill (Python cProfile / C perf)</div></div>
