@@ -386,10 +386,10 @@
 <p class="subtitle">All commands, agents, skills, hooks, and MCP servers &mdash; and when to use them</p>
 
 <div class="stats">
-  <div class="stat"><div class="stat-number c-green">23</div><div class="stat-label">Commands</div></div>
+  <div class="stat"><div class="stat-number c-green">27</div><div class="stat-label">Commands</div></div>
   <div class="stat"><div class="stat-number c-blue">25</div><div class="stat-label">Agents</div></div>
   <div class="stat"><div class="stat-number c-amber">12</div><div class="stat-label">Skills</div></div>
-  <div class="stat"><div class="stat-number c-red">7</div><div class="stat-label">Hooks</div></div>
+  <div class="stat"><div class="stat-number c-red">13</div><div class="stat-label">Hooks</div></div>
   <div class="stat"><div class="stat-number c-pink">11</div><div class="stat-label">MCP Servers</div></div>
 </div>
 
@@ -406,6 +406,7 @@
   <button class="tab" onclick="showTab('skills')">Skills</button>
   <button class="tab" onclick="showTab('hooks')">Hooks &amp; MCP</button>
   <button class="tab" onclick="showTab('decisions')">When to Use What</button>
+  <button class="tab" onclick="showTab('workflows')">Example Workflows</button>
 </div>
 
 <!-- ==================== PIPELINE TAB ==================== -->
@@ -742,6 +743,10 @@
     <div class="card source-custom"><div class="name">/summarize &lt;topic&gt;</div><div class="desc">Searches past JSONL session files for a topic. Produces summary with decisions, outcomes, open items.</div></div>
     <div class="card source-custom"><div class="name">/ship &lt;feature&gt;</div><div class="desc">Full pipeline for a single feature: architect &rarr; explore &rarr; plan &rarr; build (senior-engineer + frontend-engineer) &rarr; code review (4-pass) &rarr; QA verify (Playwright) &rarr; pre-ship (7 gates). One command, architecture to production.</div></div>
     <div class="card source-custom"><div class="name">/build-features &lt;list&gt;</div><div class="desc">Feature orchestrator. Takes a list of features, builds dependency DAG, designs shared contracts, coordinates parallel agents through build-review cycles with quality gates. Topological sort, zero file overlap enforcement, circuit breaker after 3 failures.</div></div>
+    <div class="card source-custom"><div class="name">/search-first &lt;need&gt;</div><div class="desc">Search npm/PyPI/GitHub/MCP before building custom. Scores candidates on 8 criteria, recommends adopt/wrap/reference/build.</div></div>
+    <div class="card source-custom"><div class="name">/checkpoint &lt;action&gt;</div><div class="desc">Save/restore known-good states. Create, list, restore, verify, diff. Git tags for easy rollback.</div></div>
+    <div class="card source-custom"><div class="name">/eval &lt;action&gt;</div><div class="desc">Eval-driven development. Define success criteria before building, run evals continuously, track regressions as P0.</div></div>
+    <div class="card source-custom"><div class="name">/evolve</div><div class="desc">Continuous learning. Analyzes tool usage patterns, creates instincts (learned behaviors with confidence scores), promotes to global.</div></div>
     <div class="card source-custom"><div class="name">/launch-multiagent-team</div><div class="desc">Decision framework for when/how to launch multi-agent teams. Rules: 3+ independent streams, &lt;20% file overlap, 2-3 agent sweet spot.</div></div>
   </div>
 
@@ -829,6 +834,12 @@
     <div class="card source-custom"><div class="name">reinject-context.sh <span class="badge badge-hook">SessionStart</span></div><div class="desc">Re-injects git state after context compaction</div></div>
     <div class="card source-custom"><div class="name">statusline.sh <span class="badge badge-hook">StatusLine</span></div><div class="desc">Shows model, context usage bar, and session cost</div></div>
     <div class="card source-custom"><div class="name">audit-config.sh <span class="badge badge-hook">ConfigChange</span></div><div class="desc">Logs config changes to ~/claude-config-audit.log</div></div>
+    <div class="card source-custom"><div class="name">plankton-quality.sh <span class="badge badge-hook">PostToolUse</span></div><div class="desc">Runs 20+ language-appropriate linters on every file edit (eslint, tsc, ruff, mypy, bandit, shellcheck, etc.)</div></div>
+    <div class="card source-custom"><div class="name">audit-debug-statements.sh <span class="badge badge-hook">PostToolUse</span></div><div class="desc">Warns about console.log, debugger, print(), TODO/FIXME in edited files</div></div>
+    <div class="card source-custom"><div class="name">protect-configs.sh <span class="badge badge-hook">PreToolUse</span></div><div class="desc">Blocks modifications to linter/formatter configs &mdash; fix code, don't weaken rules</div></div>
+    <div class="card source-custom"><div class="name">observe-patterns.sh <span class="badge badge-hook">PostToolUse</span></div><div class="desc">Captures tool usage to observations.jsonl for continuous learning (/evolve)</div></div>
+    <div class="card source-custom"><div class="name">pre-compact-save.sh <span class="badge badge-hook">PreCompact</span></div><div class="desc">Saves git state, bugs, tasks before context compaction</div></div>
+    <div class="card source-custom"><div class="name">block-dev-server.sh <span class="badge badge-hook">PreToolUse</span></div><div class="desc">Warns about dev servers started outside tmux</div></div>
   </div>
 
   <div class="section-title"><span style="color:var(--pink);">&bull;</span> MCP Servers — Connected</div>
@@ -983,6 +994,27 @@
   </div>
 
   <div class="decision">
+    <div class="decision-q">Quality &amp; verification</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Define what "done" means before building</div><div class="use">/eval create [name] (success criteria, graders)</div></div>
+      <div class="decision-opt"><div class="when">Check if implementation meets criteria</div><div class="use">/eval run (runs all evals)</div></div>
+      <div class="decision-opt"><div class="when">Check for regressions</div><div class="use">/eval regression (compares against baseline)</div></div>
+      <div class="decision-opt"><div class="when">Save known-good state</div><div class="use">/checkpoint create [name]</div></div>
+      <div class="decision-opt"><div class="when">Something broke, need to roll back</div><div class="use">/checkpoint restore [name]</div></div>
+      <div class="decision-opt"><div class="when">Search before building custom</div><div class="use">/search-first [need] (scores existing solutions)</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-q">Learning &amp; improvement</div>
+    <div class="decision-options">
+      <div class="decision-opt"><div class="when">Want Claude to learn from your habits</div><div class="use">/evolve analyze (detects patterns from tool usage)</div></div>
+      <div class="decision-opt"><div class="when">See what Claude has learned</div><div class="use">/evolve list (instincts with confidence scores)</div></div>
+      <div class="decision-opt"><div class="when">Promote a pattern to all projects</div><div class="use">/evolve promote [id] (project &rarr; global)</div></div>
+    </div>
+  </div>
+
+  <div class="decision">
     <div class="decision-q">Session management</div>
     <div class="decision-options">
       <div class="decision-opt"><div class="when">Stepping away mid-session</div><div class="use">/tbc (bookmark) &rarr; /catch-up (when back)</div></div>
@@ -990,6 +1022,205 @@
       <div class="decision-opt"><div class="when">What did I do last week?</div><div class="use">/summarize &lt;topic&gt; (searches past sessions)</div></div>
       <div class="decision-opt"><div class="when">Context getting bloated</div><div class="use">/context + context-engineering skill</div></div>
       <div class="decision-opt"><div class="when">Need multi-agent parallelism</div><div class="use">/launch-multiagent-team (decision framework)</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== WORKFLOWS TAB ==================== -->
+<div id="workflows" class="tab-content">
+
+  <div class="section-title">Build a Feature End-to-End</div>
+  <div class="flowchart">
+    <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 16px;">Example: "Add email notifications for overdue tasks"</p>
+    <div class="flow-row">
+      <div class="flow-command">/search-first email sending for Node.js</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">Found: Resend (score 36/40) &rarr; adopt</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-command">/eval create email-notifications</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">Define: sends email within 5s of task overdue, retries 3x, no duplicate sends</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-command">/ship add email notifications for overdue tasks</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">Runs: /architect &rarr; /plan &rarr; @senior-engineer &rarr; @code-reviewer &rarr; /pre-ship</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-command">/eval run email-notifications</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">All criteria pass &check;</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-command">/checkpoint create post-notifications</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">Known-good state saved at git tag</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-command">/evolve analyze</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">Learned: "always add retry logic with external services" (confidence 0.5)</div>
+    </div>
+  </div>
+
+  <div class="section-title">Brainstorm &rarr; Validate &rarr; Build</div>
+  <div class="flowchart">
+    <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 16px;">Example: "I have a crazy idea for an AI-powered feature"</p>
+    <div class="flow-row">
+      <div class="flow-agent">@visionary evaluate AI auto-categorization for inbox</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Verdict: BUILD. "10x moment: emails auto-sort with 95% accuracy after 50 examples"</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-agent">@ai-engineer what model and approach for email classification?</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; "Claude Haiku with few-shot prompting, $0.002/classification, embed in existing API"</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-command">/ship add AI auto-categorization for inbox</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">Full pipeline runs automatically</div>
+    </div>
+  </div>
+
+  <div class="section-title">Debug a Complex Issue</div>
+  <div class="flowchart">
+    <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 16px;">Example: "Board view re-renders when dragging columns"</p>
+    <div class="flow-row">
+      <div class="flow-agent">@debugger board re-renders entire screen when moving Personal column</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Phase 0: Reads project structure, data model, component tree</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Phase 1: Traces [drag handler] &rarr; [updateCategory] &rarr; [setState] &rarr; [re-render]</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Root cause: "updateCategory creates new array ref on every call, triggers full reconciliation"</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Fix: "use immer produce() for immutable update without new reference"</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Pattern saved to memory: "React: avoid new array/object refs in setState for list components"</div>
+    </div>
+  </div>
+
+  <div class="section-title">Build Multiple Features in Parallel</div>
+  <div class="flowchart">
+    <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 16px;">Example: "Build auth, dashboard, and settings pages"</p>
+    <div class="flow-row">
+      <div class="flow-command">/build-features 1. OAuth login  2. Dashboard with charts  3. Settings page</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; DAG analysis: auth has no deps, dashboard depends on auth, settings is independent</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Shared contracts: user schema, session types, API response format</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-group">
+        <div class="flow-agent">@senior-engineer builds OAuth</div>
+        <span style="color: var(--text-dim);">||</span>
+        <div class="flow-agent">@frontend-engineer builds Settings</div>
+      </div>
+      <div class="flow-label" style="margin-left:8px;">(parallel &mdash; zero file overlap)</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-agent">@code-reviewer reviews both</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">Integration gate passes</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-agent">@frontend-engineer builds Dashboard</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-label">(depends on auth, runs after Level 0)</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-agent">@qa-engineer verifies all 3 features end-to-end</div>
+    </div>
+  </div>
+
+  <div class="section-title">Pitch Your Product</div>
+  <div class="flowchart">
+    <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 16px;">Example: "Need investor materials for Series A"</p>
+    <div class="flow-row">
+      <div class="flow-agent">@brand-strategist write an executive summary for Series A investors</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Reads entire codebase, identifies moat, target user, traction signals</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Produces: exec summary + messaging guide (one-liner, tagline, proof points)</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-agent">@pitch-deck create investor pitch</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Interactive HTML deck: hook &rarr; pain &rarr; vision &rarr; demo &rarr; moat &rarr; CTA</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Iterate slides until satisfied, then PDF export for meetings</div>
+    </div>
+  </div>
+
+  <div class="section-title">Design Before Building</div>
+  <div class="flowchart">
+    <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 16px;">Example: "What should the settings page look like?"</p>
+    <div class="flow-row">
+      <div class="flow-agent">@ui-mockup review this project and mockup the settings page</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Scans codebase, extracts design tokens, identifies existing patterns</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Generates interactive HTML at docs/mockups/settings.html with all states</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; You tweak: "make sidebar narrower", "add dark mode toggle"</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-label">&rarr; Produces implementation spec for @frontend-engineer + @senior-engineer</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-command">/ship implement the settings page per mockup spec</div>
+    </div>
+  </div>
+
+  <div class="section-title">What Happens Automatically (No Commands Needed)</div>
+  <div class="flowchart">
+    <p style="color: var(--text-dim); font-size: 12px; margin-bottom: 16px;">These hooks fire silently on every file edit:</p>
+    <div class="flow-row">
+      <div class="flow-hook">plankton-quality</div>
+      <div class="flow-label">Runs linters for your language (eslint, ruff, mypy, shellcheck...)</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-hook">audit-debug-statements</div>
+      <div class="flow-label">Warns about console.log, debugger, print(), TODO/FIXME</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-hook">protect-configs</div>
+      <div class="flow-label">Blocks weakening linter configs</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-hook">observe-patterns</div>
+      <div class="flow-label">Records tool usage for /evolve learning</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-hook">format-python / format-c</div>
+      <div class="flow-label">Auto-formats with black / clang-format</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-hook">pre-compact-save</div>
+      <div class="flow-label">Saves state before context compaction</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-hook">block-dev-server</div>
+      <div class="flow-label">Warns about dev servers outside tmux</div>
     </div>
   </div>
 
