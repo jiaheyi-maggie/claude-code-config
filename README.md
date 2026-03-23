@@ -28,6 +28,9 @@ These commands map to a complete product development workflow:
     ↓
 /handover            Save session state for next session
 
+Full pipeline (one command):
+/ship <feature>      Architect → plan → build → review → QA → pre-ship
+
 Session utilities (use anytime):
 /tbc                 Bookmark before stepping away
 /catch-up            Summarize what you missed since /tbc
@@ -62,6 +65,7 @@ Or use `/route` in any session to get an instant recommendation for your current
 | `/pre-ship` | Shipping | Seven quality gates — build, semantics, edge cases, security, performance, DX, product alignment |
 | `/bugfix <description>` | Debugging | Strict 5-phase bug fix protocol with mandatory reproduction, verification, and attempt tracking in `.claude/bugs.md` |
 | `/handover` | Session mgmt | Saves session state to auto-loading file + persists lessons to memory |
+| `/ship <feature>` | Orchestration | Full pipeline for a single feature: architect → plan → build (with right engineers) → code review → QA verify → pre-ship. One command, architecture to production. |
 | `/build-features <list>` | Orchestration | Takes a feature list, builds dependency DAG, designs shared contracts, then coordinates parallel agents through build-review cycles with quality gates |
 | `/launch-multiagent-team` | Workflow | Decision framework for when/how to use multi-agent teams |
 | `/summarize <topic>` | Session mgmt | Searches past conversation logs for a topic and produces a detailed summary with decisions, outcomes, and open items |

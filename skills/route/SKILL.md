@@ -40,6 +40,10 @@ If $ARGUMENTS is provided, route based on that description. If not, infer from t
 - **Multiple features, need orchestration?** → `/build-features <list>` (DAG analysis, parallel agents, quality gates)
 - **Single feature?** → `/explore-feature` → `/plan` → build (don't need orchestration)
 
+### "I want to take a feature from design to shipped"
+- **Single feature, full pipeline?** → `/ship <feature>` (architect → plan → build → review → QA → pre-ship)
+- **Multiple features, need orchestration?** → `/build-features <list>` (DAG analysis, parallel agents)
+
 ### "I'm ready to write code"
 - **Starting a new session?** → `/prime` first (loads project context)
 - **Test-driven development?** → `/tdd` (strict Red-Green-Refactor)
