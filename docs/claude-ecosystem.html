@@ -229,6 +229,10 @@
   .legend-custom { background: var(--accent); }
   .legend-substrate { background: var(--orange); }
   .legend-builtin { background: var(--text-dim); }
+  .legend-volt { background: var(--green); }
+
+  .card.source-volt { border-left: 3px solid var(--green); }
+  .badge-volt { background: var(--green-dim); color: var(--green); }
 
   /* Flowchart */
   .flowchart {
@@ -387,7 +391,7 @@
 
 <div class="stats">
   <div class="stat"><div class="stat-number c-green">27</div><div class="stat-label">Commands</div></div>
-  <div class="stat"><div class="stat-number c-blue">25</div><div class="stat-label">Agents</div></div>
+  <div class="stat"><div class="stat-number c-blue">149</div><div class="stat-label">Agents</div></div>
   <div class="stat"><div class="stat-number c-amber">12</div><div class="stat-label">Skills</div></div>
   <div class="stat"><div class="stat-number c-red">13</div><div class="stat-label">Hooks</div></div>
   <div class="stat"><div class="stat-number c-pink">11</div><div class="stat-label">MCP Servers</div></div>
@@ -397,6 +401,7 @@
   <span><span class="legend-bar legend-custom"></span> Your custom config (claude-code-config)</span>
   <span><span class="legend-bar legend-substrate"></span> Agentic Substrate (claude-user-memory)</span>
   <span><span class="legend-bar legend-builtin"></span> Claude Code built-in</span>
+  <span><span class="legend-bar legend-volt"></span> VoltAgent plugins (124 agents)</span>
 </div>
 
 <div class="tabs">
@@ -869,6 +874,168 @@
     <div class="card source-builtin"><div class="name">security-reviewer <span class="badge badge-sonnet">sonnet</span></div><div class="desc">Security audit specialist. Reviews code for vulnerabilities, unsafe patterns, and security best practices.</div></div>
     <div class="card source-builtin"><div class="name">test-writer</div><div class="desc">Test generation specialist. Writes comprehensive tests for existing code.</div></div>
     <div class="card source-builtin"><div class="name">systems-debugger</div><div class="desc">Low-level systems debugging for C, memory issues, crashes, and performance problems.</div></div>
+  </div>
+
+  <div class="section-title"><span style="color:var(--green);">&bull;</span> VoltAgent Plugin Agents (124 agents across 9 categories)</div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">Core Dev <span class="badge badge-volt">10 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">api-designer</div><div class="desc">REST/GraphQL endpoint design, OpenAPI docs, auth patterns, versioning</div></div>
+    <div class="card source-volt"><div class="name">backend-developer</div><div class="desc">Server-side APIs, microservices, scalable backend systems</div></div>
+    <div class="card source-volt"><div class="name">frontend-developer</div><div class="desc">React, Vue, Angular — multi-framework frontend expertise</div></div>
+    <div class="card source-volt"><div class="name">fullstack-developer</div><div class="desc">Complete features spanning DB, API, and frontend layers</div></div>
+    <div class="card source-volt"><div class="name">mobile-developer</div><div class="desc">React Native, Flutter — cross-platform mobile apps</div></div>
+    <div class="card source-volt"><div class="name">ui-designer</div><div class="desc">Visual interfaces, design systems, component libraries</div></div>
+    <div class="card source-volt"><div class="name">electron-pro</div><div class="desc">Electron desktop apps, native OS integration, distribution</div></div>
+    <div class="card source-volt"><div class="name">websocket-engineer</div><div class="desc">Real-time bidirectional communication at scale</div></div>
+    <div class="card source-volt"><div class="name">graphql-architect</div><div class="desc">GraphQL schemas, federation, query optimization</div></div>
+    <div class="card source-volt"><div class="name">microservices-architect</div><div class="desc">Distributed system design, service decomposition</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">Languages <span class="badge badge-volt">28 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">typescript-pro</div><div class="desc">Advanced type system, generics, type-level programming</div></div>
+    <div class="card source-volt"><div class="name">javascript-pro</div><div class="desc">ES2023+, async patterns, Node.js, browser optimization</div></div>
+    <div class="card source-volt"><div class="name">python-pro</div><div class="desc">Type-safe, production Python, async patterns, web APIs</div></div>
+    <div class="card source-volt"><div class="name">react-specialist</div><div class="desc">React 18+ optimization, state management, performance</div></div>
+    <div class="card source-volt"><div class="name">nextjs-developer</div><div class="desc">Next.js 14+ App Router, server components, Server Actions</div></div>
+    <div class="card source-volt"><div class="name">golang-pro</div><div class="desc">Go concurrency, high-performance systems, cloud-native</div></div>
+    <div class="card source-volt"><div class="name">rust-engineer</div><div class="desc">Memory safety, ownership, zero-cost abstractions, systems programming</div></div>
+    <div class="card source-volt"><div class="name">cpp-pro</div><div class="desc">Modern C++20/23, template metaprogramming, performance</div></div>
+    <div class="card source-volt"><div class="name">java-architect</div><div class="desc">Enterprise Java, Spring Boot, microservices patterns</div></div>
+    <div class="card source-volt"><div class="name">swift-expert</div><div class="desc">iOS/macOS, SwiftUI, async/await, actor-based state</div></div>
+    <div class="card source-volt"><div class="name">kotlin-specialist</div><div class="desc">Coroutines, multiplatform, Android/server-side</div></div>
+    <div class="card source-volt"><div class="name">vue-expert</div><div class="desc">Vue 3 Composition API, Nuxt 3, reactivity optimization</div></div>
+    <div class="card source-volt"><div class="name">angular-architect</div><div class="desc">Enterprise Angular 15+, RxJS, micro-frontends</div></div>
+    <div class="card source-volt"><div class="name">django-developer</div><div class="desc">Django 4+, REST APIs, async views, enterprise patterns</div></div>
+    <div class="card source-volt"><div class="name">fastapi-developer</div><div class="desc">Async Python APIs, Pydantic v2, dependency injection</div></div>
+    <div class="card source-volt"><div class="name">rails-expert</div><div class="desc">Rails 7/8, Hotwire, real-time, background jobs</div></div>
+    <div class="card source-volt"><div class="name">laravel-specialist</div><div class="desc">Laravel 10+, Eloquent, queues, API performance</div></div>
+    <div class="card source-volt"><div class="name">php-pro</div><div class="desc">PHP 8.3+, strict typing, Laravel/Symfony, async/Fiber</div></div>
+    <div class="card source-volt"><div class="name">spring-boot-engineer</div><div class="desc">Spring Boot 3+, cloud-native, reactive programming</div></div>
+    <div class="card source-volt"><div class="name">sql-pro</div><div class="desc">Query optimization, schema design across PostgreSQL, MySQL, SQL Server, Oracle</div></div>
+    <div class="card source-volt"><div class="name">csharp-developer</div><div class="desc">ASP.NET Core, async, Entity Framework, clean architecture</div></div>
+    <div class="card source-volt"><div class="name">dotnet-core-expert</div><div class="desc">.NET Core cloud-native, minimal APIs, microservices</div></div>
+    <div class="card source-volt"><div class="name">dotnet-framework-4.8-expert</div><div class="desc">Legacy .NET Framework 4.8 maintenance and modernization</div></div>
+    <div class="card source-volt"><div class="name">elixir-expert</div><div class="desc">OTP, GenServer, Phoenix, fault-tolerant concurrent systems</div></div>
+    <div class="card source-volt"><div class="name">flutter-expert</div><div class="desc">Flutter 3+, custom UI, state management, native integrations</div></div>
+    <div class="card source-volt"><div class="name">expo-react-native-expert</div><div class="desc">Expo/React Native, native modules, OTA updates, app store deployment</div></div>
+    <div class="card source-volt"><div class="name">powershell-5.1-expert</div><div class="desc">Windows automation, AD/DNS/DHCP/GPO management</div></div>
+    <div class="card source-volt"><div class="name">powershell-7-expert</div><div class="desc">Cross-platform automation, Azure, CI/CD pipelines</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">Infrastructure <span class="badge badge-volt">16 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">cloud-architect</div><div class="desc">Multi-cloud design, migrations, disaster recovery, cost optimization</div></div>
+    <div class="card source-volt"><div class="name">devops-engineer</div><div class="desc">CI/CD, containerization, deployment workflows</div></div>
+    <div class="card source-volt"><div class="name">terraform-engineer</div><div class="desc">Multi-cloud IaC, module architecture, state management</div></div>
+    <div class="card source-volt"><div class="name">kubernetes-specialist</div><div class="desc">K8s cluster design, deployment, troubleshooting</div></div>
+    <div class="card source-volt"><div class="name">docker-expert</div><div class="desc">Container images, orchestration, security, optimization</div></div>
+    <div class="card source-volt"><div name="name">database-administrator</div><div class="desc">DB performance, HA, disaster recovery, infrastructure</div></div>
+    <div class="card source-volt"><div class="name">security-engineer</div><div class="desc">Security controls, CI/CD security, zero-trust, compliance</div></div>
+    <div class="card source-volt"><div class="name">sre-engineer</div><div class="desc">SLO/SLI, error budgets, chaos engineering, toil reduction</div></div>
+    <div class="card source-volt"><div class="name">platform-engineer</div><div class="desc">Internal developer platforms, self-service infrastructure</div></div>
+    <div class="card source-volt"><div class="name">network-engineer</div><div class="desc">Cloud/hybrid networking, security, performance</div></div>
+    <div class="card source-volt"><div class="name">azure-infra-engineer</div><div class="desc">Azure networking, Entra ID, Bicep IaC</div></div>
+    <div class="card source-volt"><div class="name">deployment-engineer</div><div class="desc">CI/CD pipelines, deployment automation</div></div>
+    <div class="card source-volt"><div class="name">incident-responder</div><div class="desc">Active security breach, service outage response</div></div>
+    <div class="card source-volt"><div class="name">devops-incident-responder</div><div class="desc">Production incidents, service failures, postmortems</div></div>
+    <div class="card source-volt"><div class="name">terragrunt-expert</div><div class="desc">Terragrunt orchestration, DRY configs, multi-environment</div></div>
+    <div class="card source-volt"><div class="name">windows-infra-admin</div><div class="desc">Windows Server, Active Directory, DNS, DHCP, GPO</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">QA &amp; Security <span class="badge badge-volt">14 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">code-reviewer</div><div class="desc">Comprehensive code review — quality, security, best practices</div></div>
+    <div class="card source-volt"><div class="name">test-automator</div><div class="desc">Automated test frameworks, CI/CD test integration</div></div>
+    <div class="card source-volt"><div class="name">qa-expert</div><div class="desc">QA strategy, test planning, quality metrics</div></div>
+    <div class="card source-volt"><div class="name">performance-engineer</div><div class="desc">Performance bottlenecks, profiling, optimization</div></div>
+    <div class="card source-volt"><div class="name">security-auditor</div><div class="desc">Security audits, compliance assessments, risk evaluation</div></div>
+    <div class="card source-volt"><div class="name">penetration-tester</div><div class="desc">Offensive security testing, vulnerability exploitation</div></div>
+    <div class="card source-volt"><div class="name">accessibility-tester</div><div class="desc">WCAG compliance, assistive technology support</div></div>
+    <div class="card source-volt"><div class="name">chaos-engineer</div><div class="desc">Controlled failure experiments, resilience validation</div></div>
+    <div class="card source-volt"><div class="name">debugger</div><div class="desc">Bug diagnosis, root cause analysis, error correlation</div></div>
+    <div class="card source-volt"><div class="name">error-detective</div><div class="desc">Error correlation across services, root cause identification</div></div>
+    <div class="card source-volt"><div class="name">architect-reviewer</div><div class="desc">System design evaluation, architectural pattern review</div></div>
+    <div class="card source-volt"><div class="name">compliance-auditor</div><div class="desc">GDPR, HIPAA, PCI DSS, SOC 2, ISO compliance</div></div>
+    <div class="card source-volt"><div class="name">ad-security-reviewer</div><div class="desc">Active Directory security posture, privilege escalation audit</div></div>
+    <div class="card source-volt"><div class="name">powershell-security-hardening</div><div class="desc">PowerShell remoting security, least-privilege enforcement</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">Data &amp; AI <span class="badge badge-volt">13 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">ai-engineer</div><div class="desc">End-to-end AI systems — training, deployment, monitoring</div></div>
+    <div class="card source-volt"><div class="name">data-engineer</div><div class="desc">Data pipelines, ETL/ELT, data infrastructure</div></div>
+    <div class="card source-volt"><div class="name">data-scientist</div><div class="desc">Data patterns, predictive models, statistical insights</div></div>
+    <div class="card source-volt"><div class="name">ml-engineer</div><div class="desc">Production ML systems, model serving, retraining</div></div>
+    <div class="card source-volt"><div class="name">llm-architect</div><div class="desc">LLM systems, fine-tuning, RAG, inference serving</div></div>
+    <div class="card source-volt"><div class="name">prompt-engineer</div><div class="desc">Prompt design, optimization, testing, evaluation</div></div>
+    <div class="card source-volt"><div class="name">nlp-engineer</div><div class="desc">NLP pipelines, NER, sentiment, translation</div></div>
+    <div class="card source-volt"><div class="name">mlops-engineer</div><div class="desc">ML infrastructure, CI/CD for models, experiment tracking</div></div>
+    <div class="card source-volt"><div class="name">postgres-pro</div><div class="desc">PostgreSQL optimization, replication, advanced features</div></div>
+    <div class="card source-volt"><div class="name">database-optimizer</div><div class="desc">Slow query analysis, indexing strategies</div></div>
+    <div class="card source-volt"><div class="name">data-analyst</div><div class="desc">Business data insights, dashboards, statistical analysis</div></div>
+    <div class="card source-volt"><div class="name">machine-learning-engineer</div><div class="desc">Model deployment, optimization, serving at scale</div></div>
+    <div class="card source-volt"><div class="name">reinforcement-learning-engineer</div><div class="desc">RL environments, reward optimization, policy gradients</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">Developer Experience <span class="badge badge-volt">13 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">refactoring-specialist</div><div class="desc">Transform poorly structured code while preserving behavior</div></div>
+    <div class="card source-volt"><div class="name">legacy-modernizer</div><div class="desc">Incremental migration, tech debt reduction</div></div>
+    <div class="card source-volt"><div class="name">mcp-developer</div><div class="desc">Build, debug, optimize MCP servers and clients</div></div>
+    <div class="card source-volt"><div class="name">cli-developer</div><div class="desc">Command-line tools, cross-platform terminal apps</div></div>
+    <div class="card source-volt"><div class="name">documentation-engineer</div><div class="desc">API docs, tutorials, developer-friendly content</div></div>
+    <div class="card source-volt"><div class="name">build-engineer</div><div class="desc">Build performance, compilation times, build systems</div></div>
+    <div class="card source-volt"><div class="name">dependency-manager</div><div class="desc">Dependency audit, vulnerability resolution, bundle optimization</div></div>
+    <div class="card source-volt"><div class="name">dx-optimizer</div><div class="desc">Developer workflow optimization, feedback loops</div></div>
+    <div class="card source-volt"><div class="name">git-workflow-manager</div><div class="desc">Git workflows, branching strategies, merge management</div></div>
+    <div class="card source-volt"><div class="name">tooling-engineer</div><div class="desc">CLIs, code generators, IDE extensions</div></div>
+    <div class="card source-volt"><div class="name">slack-expert</div><div class="desc">Slack apps, API integrations, bot development</div></div>
+    <div class="card source-volt"><div class="name">powershell-module-architect</div><div class="desc">PowerShell module design, profile systems, packaging</div></div>
+    <div class="card source-volt"><div class="name">powershell-ui-architect</div><div class="desc">WinForms, WPF, TUI for PowerShell automation</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">Domains <span class="badge badge-volt">13 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">fintech-engineer</div><div class="desc">Payment systems, financial compliance, secure transactions</div></div>
+    <div class="card source-volt"><div class="name">blockchain-developer</div><div class="desc">Smart contracts, DApps, Solidity, gas optimization</div></div>
+    <div class="card source-volt"><div class="name">game-developer</div><div class="desc">Game systems, graphics, multiplayer networking</div></div>
+    <div class="card source-volt"><div class="name">iot-engineer</div><div class="desc">Device management, edge computing, cloud integration</div></div>
+    <div class="card source-volt"><div class="name">embedded-systems</div><div class="desc">Firmware, RTOS, real-time systems, microcontrollers</div></div>
+    <div class="card source-volt"><div class="name">mobile-app-developer</div><div class="desc">iOS/Android native and cross-platform apps</div></div>
+    <div class="card source-volt"><div class="name">payment-integration</div><div class="desc">Payment gateways, PCI compliance, fraud prevention</div></div>
+    <div class="card source-volt"><div class="name">seo-specialist</div><div class="desc">Technical SEO, keyword strategy, content optimization</div></div>
+    <div class="card source-volt"><div class="name">m365-admin</div><div class="desc">Exchange Online, Teams, SharePoint, Graph API automation</div></div>
+    <div class="card source-volt"><div class="name">quant-analyst</div><div class="desc">Quantitative trading, financial models, risk analytics</div></div>
+    <div class="card source-volt"><div class="name">risk-manager</div><div class="desc">Enterprise risk assessment, control frameworks, compliance</div></div>
+    <div class="card source-volt"><div class="name">api-documenter</div><div class="desc">OpenAPI specs, interactive docs, code examples</div></div>
+    <div class="card source-volt"><div class="name">wordpress-master</div><div class="desc">Custom themes/plugins, WooCommerce, enterprise scaling</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">Business <span class="badge badge-volt">10 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">product-manager</div><div class="desc">Product strategy, feature prioritization, roadmap planning</div></div>
+    <div class="card source-volt"><div class="name">project-manager</div><div class="desc">Project plans, risk management, stakeholder coordination</div></div>
+    <div class="card source-volt"><div class="name">scrum-master</div><div class="desc">Agile ceremonies, velocity improvement, impediment removal</div></div>
+    <div class="card source-volt"><div class="name">business-analyst</div><div class="desc">Business processes, requirements gathering, process improvement</div></div>
+    <div class="card source-volt"><div class="name">technical-writer</div><div class="desc">API references, user guides, SDK docs, getting-started</div></div>
+    <div class="card source-volt"><div class="name">ux-researcher</div><div class="desc">User research, usability testing, persona development</div></div>
+    <div class="card source-volt"><div class="name">sales-engineer</div><div class="desc">Technical pre-sales, POC development, demos</div></div>
+    <div class="card source-volt"><div class="name">content-marketer</div><div class="desc">Content strategy, SEO content, multi-channel campaigns</div></div>
+    <div class="card source-volt"><div class="name">customer-success-manager</div><div class="desc">Customer health, retention, upsell, churn prevention</div></div>
+    <div class="card source-volt"><div class="name">legal-advisor</div><div class="desc">Contracts, compliance, IP protection, legal risk</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:13px; margin-top:16px;">Research <span class="badge badge-volt">7 agents</span></div>
+  <div class="grid">
+    <div class="card source-volt"><div class="name">research-analyst</div><div class="desc">Multi-source research, synthesis, trend identification</div></div>
+    <div class="card source-volt"><div class="name">market-researcher</div><div class="desc">Market analysis, consumer behavior, competitive landscape</div></div>
+    <div class="card source-volt"><div class="name">competitive-analyst</div><div class="desc">Competitor benchmarking, positioning strategy</div></div>
+    <div class="card source-volt"><div class="name">trend-analyst</div><div class="desc">Emerging patterns, industry shifts, future scenarios</div></div>
+    <div class="card source-volt"><div class="name">data-researcher</div><div class="desc">Data discovery, collection, validation</div></div>
+    <div class="card source-volt"><div class="name">search-specialist</div><div class="desc">Advanced search strategies, targeted information retrieval</div></div>
+    <div class="card source-volt"><div class="name">scientific-literature-researcher</div><div class="desc">Scientific papers, experimental data, evidence-grounded research</div></div>
   </div>
 </div>
 
