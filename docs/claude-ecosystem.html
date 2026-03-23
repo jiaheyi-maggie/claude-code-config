@@ -437,6 +437,10 @@
           <div class="name"><span class="badge badge-agent">agent</span> visionary</div>
           <div class="desc">Bold brainstorming, frontier tech, think bigger</div>
         </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> ai-engineer</div>
+          <div class="desc">AI-specific feature ideation, model selection, what&rsquo;s now possible</div>
+        </div>
       </div>
       <div class="arrow-down">&darr;</div>
     </div>
@@ -451,6 +455,10 @@
         <div class="card source-custom">
           <div class="name"><span class="badge badge-agent">agent</span> product-manager</div>
           <div class="desc">ICE scoring, prioritization, out-of-scope definition</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /eval create</div>
+          <div class="desc">Define success criteria before building &mdash; evals are the spec</div>
         </div>
       </div>
       <div class="arrow-down">&darr;</div>
@@ -470,6 +478,14 @@
         <div class="card source-substrate">
           <div class="name"><span class="badge badge-skill">skill</span> research-methodology</div>
           <div class="desc">Systematic approach for authoritative documentation</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /search-first</div>
+          <div class="desc">Search npm/PyPI/GitHub/MCP before building custom</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-mcp">mcp</span> context7</div>
+          <div class="desc">Latest library docs &mdash; prevents stale API usage</div>
         </div>
       </div>
       <div class="arrow-down">&darr;</div>
@@ -494,6 +510,14 @@
           <div class="name"><span class="badge badge-command">cmd</span> /plan</div>
           <div class="desc">Surgical, reversible implementation plan with rollback</div>
         </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> ai-engineer</div>
+          <div class="desc">AI architecture decisions, model selection, cost analysis</div>
+        </div>
+        <div class="card source-substrate">
+          <div class="name"><span class="badge badge-agent">agent</span> implementation-planner</div>
+          <div class="desc">Transforms ResearchPacks into minimal-change blueprints</div>
+        </div>
       </div>
       <div class="arrow-down">&darr;</div>
     </div>
@@ -516,6 +540,10 @@
         <div class="card source-custom">
           <div class="name"><span class="badge badge-agent">agent</span> pitch-deck</div>
           <div class="desc">Product pitch decks from codebase understanding</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-agent">agent</span> brand-strategist</div>
+          <div class="desc">Investor materials, marketing copy, messaging guides</div>
         </div>
       </div>
       <div class="arrow-down">&darr;</div>
@@ -559,6 +587,14 @@
         <div class="card source-builtin">
           <div class="name"><span class="badge badge-agent">agent</span> test-writer</div>
           <div class="desc">Comprehensive test generation for existing code</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /checkpoint create</div>
+          <div class="desc">Save known-good state after each phase</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /generate-prompt</div>
+          <div class="desc">Expand rough prompt into structured requirements</div>
         </div>
       </div>
       <div class="arrow-down">&darr;</div>
@@ -630,6 +666,18 @@
           <div class="name"><span class="badge badge-agent">agent</span> brahma-analyzer</div>
           <div class="desc">Cross-artifact consistency and coverage validation</div>
         </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /eval run</div>
+          <div class="desc">Run all evals &mdash; does implementation meet success criteria?</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /eval regression</div>
+          <div class="desc">Check for regressions against baseline</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /checkpoint verify</div>
+          <div class="desc">Full verification: build + tests + lint + types</div>
+        </div>
       </div>
       <div class="arrow-down">&darr;</div>
     </div>
@@ -667,6 +715,14 @@
         <div class="card source-substrate">
           <div class="name"><span class="badge badge-agent">agent</span> brahma-optimizer</div>
           <div class="desc">Auto-scaling, load balancing, performance tuning</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /checkpoint create</div>
+          <div class="desc">Save post-ship state as new baseline</div>
+        </div>
+        <div class="card source-custom">
+          <div class="name"><span class="badge badge-command">cmd</span> /evolve analyze</div>
+          <div class="desc">What patterns did we learn from this build?</div>
         </div>
       </div>
     </div>
@@ -718,6 +774,22 @@
     <div class="card source-custom">
       <div class="name"><span class="badge badge-skill">skill</span> /route</div>
       <div class="desc">Decision router &mdash; recommends optimal tool(s) for current task</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /evolve</div>
+      <div class="desc">Continuous learning &mdash; analyze patterns, manage instincts</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /checkpoint</div>
+      <div class="desc">Save/restore known-good states during development</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /eval</div>
+      <div class="desc">Define and run success criteria, track regressions</div>
+    </div>
+    <div class="card source-custom">
+      <div class="name"><span class="badge badge-command">cmd</span> /search-first</div>
+      <div class="desc">Search for existing solutions before building custom</div>
     </div>
   </div>
 </div>
