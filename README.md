@@ -115,6 +115,8 @@ Or use `/route` in any session to get an instant recommendation for your current
 | `protect-configs.sh` | PreToolUse (Write/Edit) | Blocks modifications to linter/formatter configs — fix code, don't weaken rules |
 | `pre-compact-save.sh` | PreCompact | Saves git state, bugs, tasks, and handover to `.claude/pre-compact-state.md` before compaction |
 | `observe-patterns.sh` | PostToolUse | Captures tool usage patterns to `.claude/observations.jsonl` for continuous learning (`/evolve`) |
+| `plankton-quality.sh` | PostToolUse (Write/Edit) | Runs language-appropriate linters (eslint, tsc, ruff, mypy, bandit, shellcheck, etc.) on every file edit |
+| `block-dev-server.sh` | PreToolUse (Bash) | Warns about dev servers started outside tmux (ensures log access) |
 
 ### Global Instructions (`CLAUDE.md`)
 

@@ -1,0 +1,8 @@
+- C11 standard. Use stdint.h types (uint32_t, not unsigned int).
+- Every malloc gets a paired free. Check all return values.
+- Naming: snake_case for functions/vars, UPPER_SNAKE for macros/constants.
+- Header guards: #pragma once. Minimize includes in headers.
+- For segfaults/memory issues, use sanitizers (-fsanitize=address,undefined) or valgrind before guessing.
+- Compile with -Wall -Wextra -Werror for development. -g -O0 for debug symbols.
+- Never use gets(), sprintf(), or strcpy() — use fgets(), snprintf(), strncpy().
+- Check every pointer before dereferencing. Check every array index before accessing.

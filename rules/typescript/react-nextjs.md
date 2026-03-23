@@ -1,0 +1,10 @@
+- Never mutate state during render — use useEffect for syncing derived state
+- Hard navigation after auth changes — router.push uses cached RSC, use window.location.href
+- Escape key + focus management for modals — role="dialog", aria-modal, tabIndex={-1}
+- Disable UI during async operations — opacity-60 pointer-events-none
+- Never use useEffect for data fetching in new code — use Server Components, Server Actions, or TanStack Query
+- Default to Server Components — only "use client" when you need interactivity
+- Suspense boundaries for every async Server Component with meaningful fallback
+- Never suppress accessibility warnings — fix the underlying issue
+- Always test on mobile viewport (375px) — desktop-only UIs are bugs
+- Always provide loading and error states — blank screens are never acceptable

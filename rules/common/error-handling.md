@@ -1,0 +1,7 @@
+- Never add broad try/catch to mask errors — fix the root cause
+- Bulk operations: use Promise.allSettled, not Promise.all, for independent items
+- Delete must mirror create — clean up ALL storage locations
+- Recoverable + idempotent → retry with backoff. Not idempotent → return error to caller.
+- Programming errors → throw (let it crash, fix the code)
+- User input errors → return 4xx with specific, actionable message
+- Never catch and swallow — every catch must log or re-throw

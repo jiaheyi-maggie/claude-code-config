@@ -1,0 +1,6 @@
+- Test behavior, not implementation — if someone refactors internals, the test shouldn't break
+- Never mock the database in integration tests — mock/prod divergence masks real bugs
+- Every new feature gets at least one test. No exceptions.
+- Every bug fix gets a regression test that would have caught the bug
+- Coverage targets: 80%+ for new code, 95%+ for critical paths (auth, payments)
+- Test names describe the scenario: "should return 404 when user not found", not "test1"

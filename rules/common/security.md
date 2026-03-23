@@ -1,0 +1,8 @@
+- Parameterize all SQL — never interpolate user input, even for LIMIT/OFFSET
+- Validate redirect URLs — only allow relative paths matching /^\/[a-zA-Z]/
+- Guard against undefined secrets — undefined === undefined is true
+- Don't leak PII in API responses — return IDs, not emails, in non-user-facing responses
+- Token refresh needs a mutex — concurrent requests trigger parallel refresh
+- Always validate and sanitize at system boundaries (user input, external APIs)
+- Never store secrets in code — use environment variables
+- HTTPS everywhere — no HTTP except localhost dev

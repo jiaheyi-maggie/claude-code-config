@@ -1,0 +1,8 @@
+- Always use type hints (PEP 484). Use `from __future__ import annotations` for modern syntax.
+- Use pathlib over os.path. Use f-strings over format/%.
+- Testing: pytest with fixtures, parametrize, conftest.py. Never unittest.
+- Prefer dataclasses or pydantic over raw dicts for structured data.
+- Imports: stdlib → third-party → local (isort compatible, blank lines between groups)
+- Use structlog for logging, not print() or basic logging
+- Always add __init__.py to packages
+- Use ruff for linting (replaces flake8, isort, pycodestyle)

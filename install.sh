@@ -102,6 +102,26 @@ if [ -d "$SCRIPT_DIR/skills" ]; then
     done
 fi
 
+# --- Rules ---
+echo ""
+echo "=== Installing rules ==="
+if [ -d "$SCRIPT_DIR/rules" ]; then
+    for rule_dir in "$SCRIPT_DIR"/rules/*/; do
+        [ -d "$rule_dir" ] || continue
+        name="$(basename "$rule_dir")"
+        target_dir="$CLAUDE_DIR/rules/$name"
+        mkdir -p "$target_dir"
+        for rule_file in "$rule_dir"*.md; do
+            [ -e "$rule_file" ] || continue
+            fname="$(basename "$rule_file")"
+            target="$target_dir/$fname"
+            backup_if_exists "$target"
+            ln -sf "$rule_file" "$target"
+        done
+        info "rules/$name"
+    done
+fi
+
 # --- CLAUDE.md ---
 echo ""
 echo "=== Installing CLAUDE.md ==="

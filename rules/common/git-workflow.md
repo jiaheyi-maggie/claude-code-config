@@ -1,0 +1,5 @@
+- Conventional commits: feat:, fix:, refactor:, docs:, test:, chore:
+- Atomic commits — one logical change per commit
+- Never commit .env, credentials, .claude/, node_modules/, dist/
+- Never force push to main/master without explicit user permission
+- Never skip pre-commit hooks (--no-verify) unless user explicitly asks

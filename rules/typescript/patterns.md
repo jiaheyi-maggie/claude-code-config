@@ -1,0 +1,8 @@
+- Never use `any` — type everything. If the type is complex, create an interface.
+- Buffer is not JSON-serializable — write Buffers directly with writeFile
+- appendFile for append-only patterns — don't read + concat + write
+- Async generators return AsyncIterable, not Promise<AsyncIterable>
+- Keep distinct types separate — even if shapes overlap today, they'll diverge
+- Readonly tuple .includes() needs a cast: (CATEGORIES as readonly string[]).includes(val)
+- Prefer strict TypeScript — enable strict: true in tsconfig.json
+- Use discriminated unions for error handling, not string error codes
