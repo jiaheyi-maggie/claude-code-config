@@ -64,6 +64,10 @@ Or use `/route` in any session to get an instant recommendation for your current
 | `/security-audit` | Review | Comprehensive OWASP Top 10 security audit with auto-fix |
 | `/pre-ship` | Shipping | Seven quality gates — build, semantics, edge cases, security, performance, DX, product alignment |
 | `/bugfix <description>` | Debugging | Strict 5-phase bug fix protocol with mandatory reproduction, verification, and attempt tracking in `.claude/bugs.md` |
+| `/search-first <need>` | Building | Search npm/PyPI/GitHub/MCP before building anything custom. Scores candidates, recommends adopt/wrap/reference/build. |
+| `/checkpoint <action>` | Quality | Save/restore known-good states during development. Create, list, restore, verify, diff. |
+| `/eval <action>` | Quality | Eval-driven development — define success criteria before building, run evals continuously, track regressions. |
+| `/evolve` | Learning | Analyze development patterns from observations, create/manage instincts (learned behaviors with confidence scores). Continuous learning system. |
 | `/handover` | Session mgmt | Saves session state to auto-loading file + persists lessons to memory |
 | `/ship <feature>` | Orchestration | Full pipeline for a single feature: architect → plan → build (with right engineers) → code review → QA verify → pre-ship. One command, architecture to production. |
 | `/build-features <list>` | Orchestration | Takes a feature list, builds dependency DAG, designs shared contracts, then coordinates parallel agents through build-review cycles with quality gates |
@@ -107,6 +111,10 @@ Or use `/route` in any session to get an instant recommendation for your current
 | `reinject-context.sh` | SessionStart (compact) | Re-injects git state after context compaction |
 | `statusline.sh` | StatusLine | Shows model, context usage bar, and session cost |
 | `audit-config.sh` | ConfigChange | Logs config changes to `~/claude-config-audit.log` |
+| `audit-debug-statements.sh` | PostToolUse (Write/Edit) | Warns about `console.log`, `debugger`, `print()`, TODO/FIXME in edited files |
+| `protect-configs.sh` | PreToolUse (Write/Edit) | Blocks modifications to linter/formatter configs — fix code, don't weaken rules |
+| `pre-compact-save.sh` | PreCompact | Saves git state, bugs, tasks, and handover to `.claude/pre-compact-state.md` before compaction |
+| `observe-patterns.sh` | PostToolUse | Captures tool usage patterns to `.claude/observations.jsonl` for continuous learning (`/evolve`) |
 
 ### Global Instructions (`CLAUDE.md`)
 
