@@ -38,6 +38,7 @@ Code like a Distinguished Engineer / Technical Fellow. These principles are non-
 - **Trace full logic end-to-end** — don't just check syntax/types/build. Verify data shapes, edge cases, semantic bugs.
 - **Follow every reference when changing a name/key/type.** When renaming an env var, config key, function, or type: grep the entire repo for all usages — type declarations (`.d.ts`), docs, `.env` files, comments, tests. Don't rely on build passing; build won't catch string-based lookups, ambient declarations, or docs.
 - **Always use latest versions.** When choosing tools, libraries, models, or APIs — web search for the latest available version. Don't assume knowledge is current. Use the best free tier option when paid keys are unavailable.
+- **Use Context7 for external library APIs.** Before writing code that uses any external library, use the Context7 MCP server to fetch the latest documentation. Don't rely on training data for library APIs — it's frequently stale. `resolve_library_id` to find the library, then `get_library_docs` for the actual API. This applies to every library: React, Next.js, FastAPI, Pydantic, Prisma, Tailwind, etc.
 - **Think ahead when building.** When building new systems from scratch, think far ahead about scaling, optimization, and future needs. Let these considerations drive architecture and design decisions from the start — don't bolt them on later.
 - Never declare a milestone done if there are remaining items.
 
