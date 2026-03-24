@@ -191,5 +191,7 @@ process.on('unhandledRejection', (reason, promise) => {
   - Build understanding layer by layer -- start with the high-level "why", then drill into "how".
 
 ## Compaction
-- When compacting, always preserve: all modified file paths, test results (pass/fail), current task context and what remains, architecture decisions, error messages, build output.
-- After compaction, re-read any files critical to the current task.
+- The `pre-compact-save.sh` hook automatically saves structured state to `.claude/pre-compact-state.md` before compaction. It captures git state, modified files, bug tracking, eval state, checkpoints, and handover context.
+- **Before compaction completes**, fill in the `<!-- Claude: ... -->` sections in the saved state file with: task overview, decisions made, what remains, important discoveries, and test results. These are the things only you know — the script captures the factual state, you capture the reasoning.
+- **After compaction**, read `.claude/pre-compact-state.md` in full, then re-read every file listed in Section 3 (Files That Matter). Resume from Section 5 (What Remains). Do NOT re-do work listed in git commits or decisions.
+- If you cannot fill in the template sections before compaction (timing), at minimum preserve: all modified file paths, test results (pass/fail), current task + what remains, architecture decisions, error messages.
