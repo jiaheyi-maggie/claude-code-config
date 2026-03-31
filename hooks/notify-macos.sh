@@ -1,6 +1,5 @@
 #!/bin/bash
-# Notification hook: macOS desktop notification via terminal-notifier
-# Sends clickable native notifications that focus the terminal on click.
+# Notification hook: macOS desktop notification with Claude icon.
 input=$(cat)
 MESSAGE=$(echo "$input" | jq -r '.message // "Claude Code needs attention"')
 TYPE=$(echo "$input" | jq -r '.notification_type // "unknown"')
@@ -12,22 +11,14 @@ case "$TYPE" in
     idle_prompt) SUBTITLE="Waiting for Input" ;;
 esac
 
-# Prefer terminal-notifier (clickable, grouped, with icon)
-if command -v terminal-notifier &>/dev/null; then
-    ICON="$HOME/setup/claude-code-config/notifier/icons/claude.png"
-    ARGS=(
-        -title "$TITLE"
-        -message "$MESSAGE"
-        -group "claude-code-$TYPE"
-        -sound default
-        -activate dev.commandline.waveterm
-    )
-    [ -n "$SUBTITLE" ] && ARGS+=(-subtitle "$SUBTITLE")
-    [ -f "$ICON" ] && ARGS+=(-contentImage "$ICON")
-
-    terminal-notifier "${ARGS[@]}" 2>/dev/null
+# Use native Swift app (shows Claude icon)
+CLAUDE_NOTIFY="$HOME/Applications/Notifiers/ClaudeNotify.app/Contents/MacOS/ClaudeNotify"
+if [ -x "$CLAUDE_NOTIFY" ]; then
+    "$CLAUDE_NOTIFY" "$TITLE" "$SUBTITLE" "$MESSAGE" 2>/dev/null
+elif command -v terminal-notifier &>/dev/null; then
+    # Fallback to terminal-notifier
+    terminal-notifier -title "$TITLE" -message "$MESSAGE" -group "claude-code-$TYPE" -sound default -activate dev.commandline.waveterm 2>/dev/null
 else
-    # Fallback to osascript
     osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\"" 2>/dev/null
 fi
 exit 0

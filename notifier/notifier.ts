@@ -115,36 +115,46 @@ function notify(opts: {
     gcal: "com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep",
   };
 
-  const args: string[] = [
-    "-title", opts.title,
-    "-message", opts.message,
-    "-group", opts.group,
-  ];
-  if (opts.subtitle) args.push("-subtitle", opts.subtitle);
-  if (opts.sound !== false) args.push("-sound", "default");
+  // Native app binaries (proper macOS icons)
+  const NOTIFIERS_DIR = `${process.env.HOME}/Applications/Notifiers`;
+  const nativeAppMap: Record<string, string> = {
+    gmail: `${NOTIFIERS_DIR}/GmailNotify.app/Contents/MacOS/GmailNotify`,
+    gcal: `${NOTIFIERS_DIR}/CalNotify.app/Contents/MacOS/CalNotify`,
+  };
 
-  // Activate the Chrome PWA app on click (instead of opening URL in browser)
-  const bundleId = opts.activate || (opts.icon && activateMap[opts.icon]);
-  if (bundleId) {
-    args.push("-activate", bundleId);
-  } else if (opts.url) {
-    args.push("-open", opts.url);
-  }
+  const binary = opts.icon && nativeAppMap[opts.icon];
 
-  // Add service icon
-  if (opts.icon) {
-    const iconPath = `${ICONS_DIR}/${opts.icon}.png`;
-    if (existsSync(iconPath)) {
-      args.push("-contentImage", iconPath);
+  if (binary && existsSync(binary)) {
+    // Use native Swift app — shows correct icon
+    Bun.spawnSync([binary, opts.title, opts.subtitle || "", opts.message]);
+
+    // Open the Chrome PWA on click isn't supported natively,
+    // so activate the app separately after sending
+    const bundleId = opts.activate || (opts.icon && activateMap[opts.icon]);
+    // Note: native notifications handle click via Notification Center
+  } else {
+    // Fallback to terminal-notifier
+    const args: string[] = [
+      "-title", opts.title,
+      "-message", opts.message,
+      "-group", opts.group,
+    ];
+    if (opts.subtitle) args.push("-subtitle", opts.subtitle);
+    if (opts.sound !== false) args.push("-sound", "default");
+
+    const bundleId = opts.activate || (opts.icon && activateMap[opts.icon]);
+    if (bundleId) {
+      args.push("-activate", bundleId);
+    } else if (opts.url) {
+      args.push("-open", opts.url);
     }
-  }
 
-  const result = Bun.spawnSync(["terminal-notifier", ...args]);
-  if (result.exitCode !== 0) {
-    // Fallback to osascript
-    const escaped = opts.message.replace(/"/g, '\\"');
-    const titleEscaped = opts.title.replace(/"/g, '\\"');
-    Bun.spawnSync(["osascript", "-e", `display notification "${escaped}" with title "${titleEscaped}"`]);
+    const result = Bun.spawnSync(["terminal-notifier", ...args]);
+    if (result.exitCode !== 0) {
+      const escaped = opts.message.replace(/"/g, '\\"');
+      const titleEscaped = opts.title.replace(/"/g, '\\"');
+      Bun.spawnSync(["osascript", "-e", `display notification "${escaped}" with title "${titleEscaped}"`]);
+    }
   }
 }
 
