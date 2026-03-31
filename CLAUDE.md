@@ -159,11 +159,39 @@ process.on('unhandledRejection', (reason, promise) => {
 - For segfaults/memory issues, use sanitizers (`-fsanitize=address,undefined`) or valgrind before guessing. Compile with `-g -O0` for debug symbols.
 
 ## Tools & Workflow
-- Shell: zsh on macOS. Editor: VSCode (use `code` to open files).
+- Shell: zsh on macOS with Zinit (Turbo mode), Starship prompt. Editor: VSCode (use `code` to open files).
 - Git: conventional commits (feat:, fix:, refactor:, docs:, test:, chore:).
 - Keep commits atomic -- one logical change per commit.
 - When debugging, check compiler warnings first (-Wall -Wextra -Werror).
 - IMPORTANT: Never commit the `.claude/` directory in any project. When starting work in a repo, check if `.claude/` is in `.gitignore` — if not, add it automatically.
+
+### Available CLI tools (use these instead of legacy equivalents)
+- **eza** instead of ls (`ls`, `ll`, `lt`, `la` are aliased)
+- **bat** instead of cat (`cat` is aliased, `catp` for paged output)
+- **fd** instead of find (`find` is aliased)
+- **ripgrep** instead of grep (`grep` is aliased to `rg`)
+- **sd** instead of sed (`sed` is aliased)
+- **dust** instead of du (`du` is aliased)
+- **btop** instead of top (`top` is aliased)
+- **delta** as git pager (side-by-side, syntax-highlighted diffs)
+- **difftastic** via `git difftool` for structural/syntax-aware diffs
+- **zoxide** for smart directory jumping (`z <partial-name>`)
+- **fzf** for fuzzy finding (Ctrl-R history, Ctrl-T files, Alt-C dirs, Tab completion)
+- **lazygit** for interactive git TUI (`lg`)
+- **xh** for HTTP requests (like httpie but Rust-based, e.g. `xh GET url`)
+- **yq** for YAML processing (like jq for YAML)
+- **jq** for JSON processing
+- **hyperfine** for statistical benchmarking (`hyperfine 'cmd1' 'cmd2'`)
+- **watchexec** for file-watching (`watchexec -e py -- pytest`)
+- **scc** for code statistics and complexity metrics
+- **git-absorb** for auto-assigning fixup commits (`git absorb` then rebase)
+- **tldr** for quick command help (`help` is aliased)
+- **atuin** for SQLite-backed shell history with context (directory, exit code, duration)
+
+### Runtime & environment management
+- **mise** for all language runtimes (replaces nvm, pyenv, rbenv). Use `mise use node@22`, `mise use python@3.12`, etc.
+- **direnv** for per-directory environment variables. Projects use `.envrc` files.
+- **bun** is installed at `~/.bun/bin/bun` for JS/TS tooling.
 
 ## Multi-Agent Teams
 - **Default is single session.** Only use multi-agent teams when: 3+ truly independent workstreams, estimated solo time >20 min, and <20% file overlap.

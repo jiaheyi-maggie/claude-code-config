@@ -2,3 +2,6 @@
 .DS_Store
 *.swp
 *~
+notifier/credentials.json
+notifier/node_modules/
+notifier/bun.lock

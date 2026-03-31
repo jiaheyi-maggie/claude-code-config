@@ -1,0 +1,13 @@
+{
+  "name": "google-notifier",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun run notifier.ts",
+    "auth": "bun run auth.ts",
+    "test": "bun run notifier.ts --once"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}
