@@ -20,7 +20,7 @@ if command -v terminal-notifier &>/dev/null; then
         -message "$MESSAGE"
         -group "claude-code-$TYPE"
         -sound default
-        -activate com.apple.Terminal
+        -activate dev.commandline.waveterm
     )
     [ -n "$SUBTITLE" ] && ARGS+=(-subtitle "$SUBTITLE")
     [ -f "$ICON" ] && ARGS+=(-contentImage "$ICON")

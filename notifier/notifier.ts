@@ -107,15 +107,29 @@ function notify(opts: {
   group: string;
   sound?: boolean;
   icon?: "gmail" | "gcal";
+  activate?: string;
 }): void {
+  // Chrome PWA bundle IDs
+  const activateMap: Record<string, string> = {
+    gmail: "com.google.Chrome.app.fmgjjmmmlfnkbppncabfkddbjimcfncm",
+    gcal: "com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep",
+  };
+
   const args: string[] = [
     "-title", opts.title,
     "-message", opts.message,
     "-group", opts.group,
   ];
   if (opts.subtitle) args.push("-subtitle", opts.subtitle);
-  if (opts.url) args.push("-open", opts.url);
   if (opts.sound !== false) args.push("-sound", "default");
+
+  // Activate the Chrome PWA app on click (instead of opening URL in browser)
+  const bundleId = opts.activate || (opts.icon && activateMap[opts.icon]);
+  if (bundleId) {
+    args.push("-activate", bundleId);
+  } else if (opts.url) {
+    args.push("-open", opts.url);
+  }
 
   // Add service icon
   if (opts.icon) {
