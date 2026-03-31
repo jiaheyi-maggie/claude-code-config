@@ -19,6 +19,7 @@ const CALENDAR_LOOKAHEAD_MS = 15 * 60_000;  // 15 minutes
 const CALENDAR_REMINDER_MS = 10 * 60_000;  // notify 10 min before
 
 const CREDENTIALS_PATH = new URL("./credentials.json", import.meta.url).pathname;
+const ICONS_DIR = new URL("./icons", import.meta.url).pathname;
 const STATE_DIR = `${process.env.HOME}/.google-notifier`;
 const STATE_PATH = `${STATE_DIR}/state.json`;
 const LOG_PATH = `${STATE_DIR}/notifier.log`;
@@ -105,6 +106,7 @@ function notify(opts: {
   url?: string;
   group: string;
   sound?: boolean;
+  icon?: "gmail" | "gcal";
 }): void {
   const args: string[] = [
     "-title", opts.title,
@@ -114,6 +116,14 @@ function notify(opts: {
   if (opts.subtitle) args.push("-subtitle", opts.subtitle);
   if (opts.url) args.push("-open", opts.url);
   if (opts.sound !== false) args.push("-sound", "default");
+
+  // Add service icon
+  if (opts.icon) {
+    const iconPath = `${ICONS_DIR}/${opts.icon}.png`;
+    if (existsSync(iconPath)) {
+      args.push("-contentImage", iconPath);
+    }
+  }
 
   const result = Bun.spawnSync(["terminal-notifier", ...args]);
   if (result.exitCode !== 0) {
@@ -192,6 +202,7 @@ async function checkGmail(
         message: msg.subject,
         url: `https://mail.google.com/mail/u/0/#inbox/${msg.id}`,
         group: `gmail-${msg.id}`,
+        icon: "gmail",
       });
       log(`Gmail: notified — ${fromName}: ${msg.subject}`);
     } else if (newMessages.length > 1) {
@@ -202,6 +213,7 @@ async function checkGmail(
         message: `${firstFrom}: ${newMessages[0].subject} and ${newMessages.length - 1} more`,
         url: "https://mail.google.com/mail/u/0/#inbox",
         group: "gmail-batch",
+        icon: "gmail",
       });
       log(`Gmail: notified — ${newMessages.length} new messages`);
     }
@@ -267,6 +279,7 @@ async function checkCalendar(
           message: `${event.summary || "(no title)"}${location}`,
           url: meetLink,
           group: `gcal-${event.id}`,
+          icon: "gcal",
         });
 
         state.notifiedEventIds.push(event.id);
@@ -289,6 +302,7 @@ async function checkCalendar(
           message: `${event.summary || "(no title)"}`,
           url: meetLink,
           group: `gcal-now-${event.id}`,
+          icon: "gcal",
           sound: true,
         });
         state.notifiedEventIds.push(nowKey);

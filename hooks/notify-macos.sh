@@ -12,8 +12,9 @@ case "$TYPE" in
     idle_prompt) SUBTITLE="Waiting for Input" ;;
 esac
 
-# Prefer terminal-notifier (clickable, custom icon, grouped)
+# Prefer terminal-notifier (clickable, grouped, with icon)
 if command -v terminal-notifier &>/dev/null; then
+    ICON="$HOME/setup/claude-code-config/notifier/icons/claude.png"
     ARGS=(
         -title "$TITLE"
         -message "$MESSAGE"
@@ -22,10 +23,7 @@ if command -v terminal-notifier &>/dev/null; then
         -activate com.apple.Terminal
     )
     [ -n "$SUBTITLE" ] && ARGS+=(-subtitle "$SUBTITLE")
-
-    # Use Claude icon if available
-    ICON="$HOME/.claude/icon.png"
-    [ -f "$ICON" ] && ARGS+=(-appIcon "$ICON")
+    [ -f "$ICON" ] && ARGS+=(-contentImage "$ICON")
 
     terminal-notifier "${ARGS[@]}" 2>/dev/null
 else
