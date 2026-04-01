@@ -125,13 +125,12 @@ function notify(opts: {
   const binary = opts.icon && nativeAppMap[opts.icon];
 
   if (binary && existsSync(binary)) {
-    // Use native Swift app — shows correct icon
-    Bun.spawnSync([binary, opts.title, opts.subtitle || "", opts.message]);
-
-    // Open the Chrome PWA on click isn't supported natively,
-    // so activate the app separately after sending
+    // Use native Swift app — shows correct icon, click activates target app
     const bundleId = opts.activate || (opts.icon && activateMap[opts.icon]);
-    // Note: native notifications handle click via Notification Center
+    const spawnArgs = [binary, opts.title, opts.subtitle || "", opts.message];
+    if (bundleId) spawnArgs.push(bundleId);
+    // Run in background — app stays alive briefly to handle click
+    Bun.spawn(spawnArgs);
   } else {
     // Fallback to terminal-notifier
     const args: string[] = [

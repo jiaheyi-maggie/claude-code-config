@@ -14,7 +14,7 @@ esac
 # Use native Swift app (shows Claude icon)
 CLAUDE_NOTIFY="$HOME/Applications/Notifiers/ClaudeNotify.app/Contents/MacOS/ClaudeNotify"
 if [ -x "$CLAUDE_NOTIFY" ]; then
-    "$CLAUDE_NOTIFY" "$TITLE" "$SUBTITLE" "$MESSAGE" 2>/dev/null
+    "$CLAUDE_NOTIFY" "$TITLE" "$SUBTITLE" "$MESSAGE" "dev.commandline.waveterm" 2>/dev/null &
 elif command -v terminal-notifier &>/dev/null; then
     # Fallback to terminal-notifier
     terminal-notifier -title "$TITLE" -message "$MESSAGE" -group "claude-code-$TYPE" -sound default -activate dev.commandline.waveterm 2>/dev/null
