@@ -5,6 +5,63 @@ $ARGUMENTS
 
 ---
 
+## Phase 0: Codebase Context Loading (ALWAYS runs first)
+
+Before investigating the feature, you need deep context about THIS codebase. This is a global skill used across different repos, so context must be project-specific.
+
+### 0a. Check for prior recon memory
+Look for `.claude/recon/` in the current repo root. If it exists, read `.claude/recon/landscape.md` — this contains findings from prior /recon runs in this repo. Use it to skip re-investigating areas you already understand, and to check if anything has changed since.
+
+If `.claude/recon/landscape.md` exists, compare its `last_updated` field against recent git activity:
+```
+git log --oneline --since="[last_updated date]" | head -20
+```
+If significant changes occurred in areas covered by prior recon, re-investigate those areas. Otherwise, treat prior findings as valid context and focus investigation time on the NEW feature's specific concerns.
+
+### 0b. Build codebase mental model (if no prior recon, or first run)
+Spawn 2 Explore agents in parallel:
+
+**Agent 0A: Architecture Map**
+- Read CLAUDE.md, README.md, any architecture docs
+- Map the project structure: what packages/modules exist, how they relate
+- Identify the core abstractions, data model, and key interfaces
+- Identify the tech stack, build system, and test infrastructure
+- Report: a dense summary of the project's architecture in under 400 words
+
+**Agent 0B: Patterns & Conventions**
+- How does this codebase handle: error handling, logging, events, external integrations, config, testing?
+- What naming conventions, file organization patterns, and code style are used?
+- What's the deployment model? What environments exist?
+- Report: a dense summary of patterns and conventions in under 300 words
+
+### 0c. Persist codebase context
+After Phase 0 completes (whether from agents or prior memory), create or update `.claude/recon/landscape.md`:
+
+```markdown
+# Recon Landscape: [project name]
+> last_updated: [ISO date]
+> repo: [git remote URL or directory name]
+
+## Architecture
+[Agent 0A findings or prior + updates]
+
+## Patterns & Conventions
+[Agent 0B findings or prior + updates]
+
+## Prior Investigations
+[List of features previously investigated with /recon, one line each with date and verdict]
+```
+
+Also create `.claude/recon/.gitignore` containing `*` (this is local working memory, not committed).
+
+This file lives in the repo's `.claude/recon/` directory so it's:
+- Project-specific (different repos have different landscapes)
+- Persistent across sessions (survives conversation resets)
+- Not committed to git (via .gitignore)
+- Available to future /recon calls in the same repo
+
+---
+
 ## Phase 1: Deep Codebase Investigation (parallel agents)
 
 Spawn 3-5 Explore agents in parallel (use `subagent_type: "Explore"` with thoroughness "very thorough"). Each agent investigates one track. Tailor the tracks to the feature — these are examples, not a fixed list:
@@ -206,3 +263,7 @@ Everything above, plus:
 7. **Existing > new.** Default bias: extending existing patterns is better than building new ones. The bar for "build something new" is: nothing exists that gets you even 40% there, OR existing patterns are actively harmful.
 
 8. **Name your confidence.** For each finding, indicate whether you're confident (read the code, traced the logic) or uncertain (inferred from naming, couldn't fully trace). This helps the user calibrate trust.
+
+9. **Always persist findings.** After Phase 2, append this investigation to `.claude/recon/landscape.md` under "Prior Investigations" with the feature name, date, verdict, and key findings (3-5 bullets). This builds institutional memory — future /recon runs in the same repo benefit from knowing what was already investigated, what patterns were discovered, and what decisions were made. If you discovered new canonical patterns or architectural facts, update the Architecture/Patterns sections too.
+
+10. **Recon memory is repo-scoped, not global.** The `.claude/recon/` directory exists per-repo. Never read recon memory from a different project. Never write findings to global memory — use project-level `.claude/recon/` for codebase facts and the global auto-memory system only for cross-project learnings (e.g., "this codebase uses an unusual event pattern that I should document").
