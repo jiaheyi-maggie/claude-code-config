@@ -188,6 +188,15 @@ process.on('unhandledRejection', (reason, promise) => {
 - **tldr** for quick command help (`help` is aliased)
 - **atuin** for SQLite-backed shell history with context (directory, exit code, duration)
 
+### Git worktree helper (`wt`)
+- **`wt <branch>`** — creates a git worktree as a sibling directory (`<repo>-<branch>`), copies `.env` files, installs deps (auto-detects pnpm/bun/yarn/npm/pip), and opens in a new Warp tab.
+- **`wt <branch>` (if exists)** — just opens the existing worktree in a new Warp tab.
+- **`wt ls`** — lists all active worktrees.
+- **`wt <branch> --rm`** — removes the worktree and cleans up.
+- Defined in `~/.zshrc`. Works from anywhere inside a git repo.
+- Worktree directories are created as siblings: e.g., `~/yuzu/mono` → `~/yuzu/mono-feature-x`.
+- When working in a worktree, be aware it shares the same `.git` — commits, branches, and refs are visible from all worktrees.
+
 ### Runtime & environment management
 - **mise** for all language runtimes (replaces nvm, pyenv, rbenv). Use `mise use node@22`, `mise use python@3.12`, etc.
 - **direnv** for per-directory environment variables. Projects use `.envrc` files.
@@ -217,6 +226,17 @@ process.on('unhandledRejection', (reason, promise) => {
   - Keep explanations technical, scientific, and analytical -- not dumbed down.
   - If I ask follow-up questions about terms in the explanation, paint the full picture: show how the sub-concept fits into the larger system so I see the whole architecture.
   - Build understanding layer by layer -- start with the high-level "why", then drill into "how".
+
+## Proactive Learning
+- **Automatically save learnings during work without being asked.** Trigger on these events:
+  1. **Bug fix**: After fixing a bug, save the root cause pattern to memory
+  2. **User correction**: When the user corrects an approach, save as feedback memory immediately
+  3. **Codebase quirk**: When discovering something non-obvious about how code works, save as project memory
+  4. **Team preference**: When PR review comments or user statements reveal conventions, save as feedback memory
+  5. **Failed approach**: When an approach fails and we backtrack, save what went wrong
+- **Test before saving**: "Would knowing this save 5+ minutes in a future session?" If no, skip.
+- **Don't duplicate**: Check MEMORY.md first. Don't save things already in CLAUDE.md or derivable from code.
+- **Keep entries concise**: Under 10 lines per memory file. Include **Why** so future sessions understand the rationale.
 
 ## Compaction
 - The `pre-compact-save.sh` hook automatically saves structured state to `.claude/pre-compact-state.md` before compaction. It captures git state, modified files, bug tracking, eval state, checkpoints, and handover context.

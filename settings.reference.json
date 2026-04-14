@@ -12,13 +12,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/format-python.sh",
-            "timeout": 15
-          },
+            "command": "~/.claude/hooks/collect-edited-files.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/format-c.sh",
-            "timeout": 15
+            "command": "~/.claude/hooks/batch-format-lint.sh",
+            "timeout": 30
           }
         ]
       }
