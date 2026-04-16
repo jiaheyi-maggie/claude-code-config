@@ -1,0 +1,3 @@
+- Ship → /review → fix-pass is the minimum loop for any visual/UI feature. Never consider a UI feature done after the first implementation pass.
+- Every visual change gets a review before declaring done. Budget for a fix-pass — expect to need one.
+- Validated pattern: 3/3 UI phases needed a fix-pass that caught real regressions (contrast failures, unreadable text, drowned status indicators, WCAG violations).
